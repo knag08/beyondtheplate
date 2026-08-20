@@ -75,9 +75,10 @@ Without it, the macOS keychain hands over a different account's credential and t
 
 Everything site-wide lives in one file: [`src/data/site.ts`](src/data/site.ts).
 
-- **`booking.url`** — the full Calendly (or similar) address. Fill it in and every *Book a
-  consultation* button on the site points straight at it, opening in a new tab. While it is empty
-  those buttons send visitors to the Contact page instead, so nothing is ever a dead link.
+- **`booking.url`** — the Calendly address, currently
+  `https://calendly.com/indumathyd/meet-dr-tana`. Every *Book a consultation* button on the site points
+  at it. Emptying it makes those buttons fall back to the Contact page rather than dead-ending. See
+  **Booking, and the one third party** below for the rest of the setup.
 - **`contact.email` / `contact.phone` / `contact.location`** — each appears automatically in the
   footer and on the Contact page once filled in. Leaving one as `''` hides every mention of it rather
   than showing a blank.
@@ -85,11 +86,11 @@ Everything site-wide lives in one file: [`src/data/site.ts`](src/data/site.ts).
 - **`credentials`** — the four facts in the background band. Every one is a plain restatement of
   Dr. Tana's professional history; please do not add figures here that cannot be evidenced.
 
-> While `booking.url`, `contact.email` and `contact.phone` are all empty, the Contact page shows a
-> panel reading *“Booking opens shortly”*. Filling in any one of them replaces it.
+> Should `booking.url`, `contact.email` and `contact.phone` ever all be empty at once, the Contact page
+> falls back to a panel reading *“Booking opens shortly”* rather than showing an empty column.
 
-See [`TODO.md`](TODO.md) for what is deliberately still missing — the Calendly link, the phone
-number, and the full-resolution photographs — and the exact line to change for each.
+See [`TODO.md`](TODO.md) for what is deliberately still missing — the phone number and the
+full-resolution photographs — and the exact line to change for each.
 
 ### The words on the page
 
@@ -129,6 +130,34 @@ therefore the captions) stable:
 node scripts/import-photos.mjs ~/Downloads/Food_Images
 ```
 
+### Booking, and the one third party
+
+The scheduler is Calendly, and the whole integration is driven from `booking` in
+[`src/data/site.ts`](src/data/site.ts). It works on three levels:
+
+1. **`booking.url`** — every booking link on the site points here: the header button, the mobile menu,
+   the footer, the home hero and the call to action at the foot of every page. These are ordinary
+   links, so they work with JavaScript disabled and with nothing loaded from Calendly at all.
+2. **The popup.** [`src/components/Calendly.astro`](src/components/Calendly.astro) loads Calendly's
+   widget after the page has finished rendering, then upgrades those same links to open the calendar in
+   an overlay rather than navigating away. This is an enhancement only — the `href` is left in place,
+   so a click that lands before the script has loaded still reaches the booking page the ordinary way,
+   and ⌘- or ctrl-clicking still opens a new tab.
+3. **The floating badge** — the pill that follows the visitor down the page. Set
+   `booking.badge.enabled: false` to remove it site-wide; the buttons carry on working. It is
+   deliberately suppressed on the Contact page, listed in `booking.badge.hideOn`, because that page
+   already leads with a booking card and on a phone the badge landed directly on top of it.
+
+The badge colour is `#b55f20`, the site's own action colour, rather than Calendly's suggested
+`#ff7100`: white text on that brighter orange measures 2.8:1, short of the 4.5:1 that the badge's 14px
+text needs to stay legible. The current tone measures 4.6:1.
+
+> **This is the only place the site talks to a third party.** Loading the widget means a request to
+> `assets.calendly.com`, which sees the visitor's IP address and sets Calendly's cookies, and the
+> booking form itself collects a parent's name, email and whatever they type about their child — on
+> Calendly's servers, under Calendly's privacy policy. Everything else on the site is served from the
+> site's own domain. See [`TODO.md`](TODO.md) for the privacy note this probably warrants.
+
 ### The brand mark and icons
 
 The mark — a plate seen from above with a sprig growing out of it — is drawn in
@@ -147,12 +176,11 @@ changing the mark or the wording on the card.
   used sparingly, all on a cream ground the colour of a plate. The site's two structural motifs are a
   circle (`.plate`) and a leaf (`.leafy`).
 - **Fonts** are bundled with the site — Newsreader for headings, Nunito for text. Nothing is loaded
-  from Google or any other third party, so the site works behind restrictive networks and leaks no
-  visitor data.
+  from Google, so the site works behind restrictive networks.
 - **Accessibility** — every photograph carries a description, the site works with the keyboard alone,
   colour contrast meets WCAG AA, and the reveal animation switches itself off for anyone who has asked
   their device to reduce motion.
-- **No tracking.** There is no analytics, no advertising pixel and no third-party embed anywhere on the
-  site.
+- **No tracking.** There is no analytics and no advertising pixel anywhere on the site. Calendly is the
+  single third party involved — see below.
 - **The medical disclaimer** in the footer states that coaching is educational and not medical care.
   Please keep it, and have it reviewed if the scope of the practice changes.

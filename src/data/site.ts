@@ -36,13 +36,42 @@ export const contact = {
  * The scheduler behind “Book a consultation”.
  *
  * Put the full Calendly (or similar) URL in `url` and every booking button on
- * the site points straight at it, opening in a new tab. While it is empty the
+ * the site points straight at it — header, mobile menu, footer, the home hero
+ * and the call to action at the foot of every page. While it is empty the
  * buttons send visitors to the Contact page instead, so nothing is ever a dead
  * link.
  */
 export const booking = {
-  url: '' as string,
+  url: 'https://calendly.com/indumathyd/meet-dr-tana' as string,
   label: 'Book a consultation',
+
+  /**
+   * Calendly's floating badge — the pill that follows the visitor down every
+   * page. Set `enabled: false` to remove it site-wide; the ordinary booking
+   * buttons keep working either way.
+   *
+   * Note that switching this on is the one place where the site talks to a
+   * third party: it loads a script from assets.calendly.com, which sees the
+   * visitor's IP address and sets its own cookies. Nothing else on the site
+   * does.
+   */
+  badge: {
+    enabled: true,
+    text: 'Meet Dr. Tana',
+    /**
+     * Pages that already put booking in front of the visitor, so the floating
+     * pill would only duplicate it — and, on a phone, sit on top of it.
+     */
+    hideOn: ['/contact/'],
+    /**
+     * apricot-600, the site's own action colour. Deliberately not #ff7100:
+     * white text on that orange comes out at 2.8:1, below the 4.5:1 the
+     * badge's small text needs to stay readable. This tone gives 4.6:1.
+     */
+    color: '#b55f20',
+    textColor: '#ffffff',
+    branding: true,
+  },
 } as const;
 
 /** Where a booking button should actually go, given the above. */

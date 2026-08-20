@@ -3,26 +3,7 @@
 Deliberate omissions, not oversights. Each one is a small, contained change —
 the file and the exact line to edit is named.
 
-## 1. The Calendly link
-
-**File:** [`src/data/site.ts`](src/data/site.ts) → `booking.url`
-
-```ts
-export const booking = {
-  url: 'https://calendly.com/…' as string,   // ← paste the full https:// address here
-  label: 'Book a consultation',
-} as const;
-```
-
-Filling this in points every *Book a consultation* button on the site — header, mobile
-drawer, footer, and the call-to-action at the foot of every page — straight at the
-scheduler, opening in a new tab. It also replaces the *“Booking opens shortly”* panel on
-the Contact page with a real booking card.
-
-Until then those buttons send visitors to `/contact/`, where they can email instead, so
-nothing dead-ends.
-
-## 2. The phone number
+## 1. The phone number
 
 **File:** [`src/data/site.ts`](src/data/site.ts) → `contact.phone`
 
@@ -30,7 +11,7 @@ Held back on purpose for now, to keep the practice from being swamped by calls. 
 and it appears on its own in two places: as a line in the footer, and as a tap-to-call
 panel on the Contact page. No other file needs touching.
 
-## 3. Full-resolution photographs
+## 2. Full-resolution photographs
 
 The 62 photographs in [`src/assets/photos/`](src/assets/photos/) are currently 620 px
 wide — macOS blocked this machine's tooling from reading `~/Downloads`, so they were
@@ -45,7 +26,7 @@ npm run build
 The script maps each original WhatsApp filename to its site filename, so captions,
 categories and the hero images all stay exactly where they are.
 
-## 4. Switch the Pages source to GitHub Actions
+## 3. Switch the Pages source to GitHub Actions
 
 **Where:** repository **Settings → Pages → Build and deployment → Source**
 
@@ -54,6 +35,18 @@ deployment* workflow alongside ours on every push, tries to build the repository
 Jekyll, and fails — one red cross in the Actions tab per push. The live site is unaffected,
 but setting the source to **GitHub Actions** stops the wasted build and removes the risk of
 a stray Jekyll run overwriting the real deployment.
+
+## 4. A privacy note
+
+Booking now runs through Calendly, which means a request to `assets.calendly.com` on every
+page, Calendly's own cookies, and a form that collects a parent's name, email and whatever
+they choose to write about their child — all on Calendly's servers.
+
+That is a normal arrangement for a coaching practice, but it is the first time the site
+handles anyone's personal data, so a short plain-English privacy note is worth having: what
+Calendly receives, what is done with an enquiry, and how long it is kept. It wants writing
+by someone who can speak for the practice rather than being drafted here, and it would sit
+naturally as a `/privacy/` page linked from the footer.
 
 ## 5. Worth considering later
 

@@ -1,0 +1,94 @@
+---
+/**
+ * Calendly, loaded once for the whole site.
+ *
+ * Two things happen here:
+ *
+ *   1. The floating badge widget, if `booking.badge.enabled` is set.
+ *   2. Every link on the site that points at Calendly is upgraded to open the
+ *      scheduler in an overlay instead of navigating away. This is a pure
+ *      enhancement — the `href` is left intact, so a click that lands before
+ *      the script has loaded, or with JavaScript switched off, still reaches
+ *      the booking page the ordinary way.
+ *
+ * Calendly's script is fetched after `load`, so it never competes with the
+ * page's own rendering.
+ */
+import { booking } from '../data/site';
+
+const enabled = Boolean(booking.url);
+
+// The badge is suppressed where the page already leads with booking of its own.
+const onHiddenPage = booking.badge.hideOn.some((path) => Astro.url.pathname === path);
+const badge = booking.badge.enabled && !onHiddenPage ? booking.badge : null;
+---
+
+{
+  enabled && (
+    <Fragment>
+      <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" media="all" />
+
+      {
+        badge && (
+          <style is:global>
+            {/*
+              The badge is fixed to the bottom-right corner, where on a narrow
+              screen it lands squarely on the last lines of the footer. Buy the
+              footer enough room that nothing is permanently hidden behind it.
+            */}
+            @media (max-width: 40rem) {
+              footer {
+                padding-bottom: 4.5rem;
+              }
+            }
+          </style>
+        )
+      }
+
+      <script is:inline define:vars={{ schedulerUrl: booking.url, badge }}>
+        (function () {
+          var start = function () {
+            var script = document.createElement('script');
+            script.src = 'https://assets.calendly.com/assets/external/widget.js';
+            script.async = true;
+
+            script.onload = function () {
+              if (!window.Calendly) return;
+
+              if (badge) {
+                window.Calendly.initBadgeWidget({
+                  url: schedulerUrl,
+                  text: badge.text,
+                  color: badge.color,
+                  textColor: badge.textColor,
+                  branding: badge.branding,
+                });
+              }
+
+              document.addEventListener('click', function (event) {
+                // Leave modified clicks alone: someone asking for a new tab or
+                // window should get one.
+                if (event.defaultPrevented || event.button !== 0) return;
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+                var target = event.target;
+                if (!(target instanceof Element)) return;
+
+                var link = target.closest('a[href*="calendly.com/"]');
+                if (!link) return;
+
+                event.preventDefault();
+                window.Calendly.initPopupWidget({ url: link.href });
+              });
+            };
+
+            document.head.appendChild(script);
+          };
+
+          if (document.readyState === 'complete') start();
+          else window.addEventListener('load', start, { once: true });
+        })();
+      </script>
+    </Fragment>
+  )
+}
