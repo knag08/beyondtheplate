@@ -1,5 +1,5 @@
 /**
- * Copies Dr. Tan's photographs out of a source folder and into
+ * Copies Dr. Tana's photographs out of a source folder and into
  * src/assets/photos/ under the names the site expects.
  *
  *   node scripts/import-photos.mjs ~/Downloads/Food_Images

@@ -1,7 +1,7 @@
 # Beyond the Plate — beyondtheplate.us
 
 The website for **Beyond the Plate**: whole-child nutrition and health coaching with
-Dr. Indu Tan, for school-age children and the families who care for them.
+Dr. Indu Tana, for school-age children and the families who care for them.
 
 Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com). It compiles to
 plain static HTML, so it is fast, cheap to host, and has no database or server to maintain.
@@ -65,10 +65,13 @@ Everything site-wide lives in one file: [`src/data/site.ts`](src/data/site.ts).
   than showing a blank.
 - **`nav`** — the navigation menu.
 - **`credentials`** — the four facts in the background band. Every one is a plain restatement of
-  Dr. Tan's professional history; please do not add figures here that cannot be evidenced.
+  Dr. Tana's professional history; please do not add figures here that cannot be evidenced.
 
 > While `booking.url`, `contact.email` and `contact.phone` are all empty, the Contact page shows a
 > panel reading *“Booking opens shortly”*. Filling in any one of them replaces it.
+
+See [`TODO.md`](TODO.md) for what is deliberately still missing — the Calendly link, the phone
+number, and the full-resolution photographs — and the exact line to change for each.
 
 ### The words on the page
 

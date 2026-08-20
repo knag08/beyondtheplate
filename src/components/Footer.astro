@@ -54,9 +54,7 @@ const year = new Date().getFullYear();
       <div>
         <h2 class="text-[0.68rem] font-bold tracking-[0.18em] text-apricot-300 uppercase">Get in touch</h2>
         <div class="mt-5 space-y-2.5">
-          {
-            contact.location && <p class="text-[0.92rem] text-forest-200/80">{contact.location}</p>
-          }
+          {contact.delivery && <p class="text-[0.92rem] text-forest-200/80">{contact.delivery}</p>}
           {
             contact.email && (
               <a

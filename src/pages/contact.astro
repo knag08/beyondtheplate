@@ -20,7 +20,7 @@ const steps = [
   {
     icon: 'mealtime' as const,
     title: 'We talk',
-    text: 'A first conversation, mostly listening — your child’s habits and preferences, your family’s routines, and everything you have already tried.',
+    text: 'A first conversation over Zoom or Google Meet, mostly listening — your child’s habits and preferences, your family’s routines, and everything you have already tried.',
   },
   {
     icon: 'plate' as const,
@@ -37,7 +37,7 @@ const steps = [
 
 <BaseLayout
   title="Contact"
-  description="Book a consultation with Dr. Indu Tan, or ask a question first. Whole-child nutrition and health coaching for school-age children and their families."
+  description="Book a consultation with Dr. Indu Tana, or ask a question first. Whole-child nutrition and health coaching for school-age children and their families."
 >
   <PageHero
     eyebrow="Your child’s journey starts here"
@@ -130,7 +130,16 @@ const steps = [
           }
         </div>
 
-        {contact.location && <p class="reveal mt-8 text-[0.9rem] text-forest-500">{contact.location}</p>}
+        {
+          contact.delivery && (
+            <p class="reveal mt-8 flex items-center gap-2.5 text-[0.9rem] text-forest-600">
+              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-sage-mist text-forest-600">
+                <Icon name="lifestyle" class="h-3.5 w-3.5" />
+              </span>
+              {contact.delivery}
+            </p>
+          )
+        }
 
         <div class="reveal mt-10">
           <Promises />

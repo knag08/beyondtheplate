@@ -31,7 +31,12 @@ const businessJsonLd = {
   slogan: 'Nourishing children. Empowering families.',
   ...(contact.email ? { email: contact.email } : {}),
   ...(contact.phone ? { telephone: contact.phone } : {}),
-  ...(contact.location ? { areaServed: contact.location } : {}),
+  // A fully online practice, so there is no address or service area to declare.
+  availableChannel: {
+    '@type': 'ServiceChannel',
+    name: 'Online sessions',
+    serviceUrl: `${site.url}/contact/`,
+  },
   founder: {
     '@type': 'Person',
     name: coach.name,

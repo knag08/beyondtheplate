@@ -9,12 +9,12 @@ export const site = {
   name: 'Beyond the Plate',
   tagline: 'Whole-child nutrition & health coaching',
   description:
-    'Whole-child nutrition and health coaching for school-age children and the families who care for them. Dr. Indu Tan — board-certified health and life coach, with nearly 30 years as a dietitian in a super-specialty hospital.',
+    'Whole-child nutrition and health coaching for school-age children and the families who care for them. Dr. Indu Tana — board-certified health and life coach, with nearly 30 years as a dietitian in a super-specialty hospital.',
   url: 'https://beyondtheplate.us',
 } as const;
 
 export const coach = {
-  name: 'Dr. Indu Tan',
+  name: 'Dr. Indu Tana',
   credentials: 'Board-Certified Health Coach & Life Coach',
   experience: 'Nearly 30 years of experience as a dietitian in a super-specialty hospital',
 } as const;
@@ -25,10 +25,11 @@ export const contact = {
    * Contact page and in the page metadata. Leave a value as an empty string
    * and every mention of it disappears instead of showing a blank.
    */
-  email: '' as string,
+  email: 'indumathyd@gmail.com' as string,
+  /** Deliberately withheld for now, to keep the practice from being swamped by calls. */
   phone: '' as string,
-  /** e.g. 'Frisco, Texas' — shown as the practice location. */
-  location: '' as string,
+  /** How sessions actually happen. The practice is fully online. */
+  delivery: 'Online practice — sessions by Zoom or Google Meet' as string,
 } as const;
 
 /**
@@ -52,14 +53,14 @@ export const nav = [
   { label: 'Is this your child?', href: '/is-this-your-child/' },
   { label: 'The approach', href: '/approach/' },
   { label: 'How I can help', href: '/coaching/' },
-  { label: 'About Dr. Tan', href: '/about/' },
+  { label: 'About Dr. Tana', href: '/about/' },
   { label: 'Gallery', href: '/gallery/' },
   { label: 'Contact', href: '/contact/' },
 ] as const;
 
 /**
  * The four facts shown in the credentials band. Every one of these is a plain
- * restatement of Dr. Tan's background — please do not add figures here that
+ * restatement of Dr. Tana's background — please do not add figures here that
  * cannot be evidenced.
  */
 export const credentials = [

@@ -58,7 +58,7 @@ const card = `
   <rect x="96" y="486" width="86" height="3" fill="${apricot}"/>
 
   <text x="96" y="546" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="${apricot}">
-    Dr. Indu Tan
+    Dr. Indu Tana
   </text>
   <text x="96" y="586" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="${cream}" opacity="0.6">
     Board-Certified Health Coach &amp; Life Coach
