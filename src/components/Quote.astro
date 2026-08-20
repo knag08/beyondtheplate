@@ -1,0 +1,32 @@
+---
+interface Props {
+  /** Set on the dark forest ground. */
+  invert?: boolean;
+  attribution?: string;
+  class?: string;
+}
+const { invert = false, attribution, class: className = '' } = Astro.props;
+---
+
+<figure class:list={['reveal relative mx-auto max-w-3xl text-center', className]}>
+  <blockquote
+    class:list={[
+      'font-display text-[1.5rem] leading-[1.35] font-normal italic sm:text-[1.9rem]',
+      invert ? 'text-white' : 'text-forest-900',
+    ]}
+  >
+    <slot />
+  </blockquote>
+  {
+    attribution && (
+      <figcaption
+        class:list={[
+          'mt-6 text-[0.8rem] font-bold tracking-[0.14em] uppercase',
+          invert ? 'text-apricot-300' : 'text-apricot-700',
+        ]}
+      >
+        {attribution}
+      </figcaption>
+    )
+  }
+</figure>

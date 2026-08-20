@@ -1,0 +1,27 @@
+---
+/**
+ * The mark: a plate seen from above, with a sprig of two leaves growing out of
+ * it — food, and what grows from it. Drawn in one colour so it can sit on any
+ * background by inheriting `currentColor`.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = 'h-12 w-12' } = Astro.props;
+---
+
+<svg viewBox="0 0 48 48" class={className} fill="none" aria-hidden="true">
+  <circle cx="24" cy="24" r="21.5" stroke="currentColor" stroke-width="1.6" opacity="0.35"></circle>
+  <circle cx="24" cy="24" r="15.5" stroke="currentColor" stroke-width="1.6"></circle>
+  <path d="M24 33.5V20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+  <path
+    d="M24 21.2c0-4.7 3.5-8.3 8.3-8.7.4 4.7-3.2 8.3-8.3 8.7Z"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linejoin="round"></path>
+  <path
+    d="M24 24.4c0-3.6-2.7-6.4-6.4-6.7.3 3.6 2.5 6.4 6.4 6.7Z"
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linejoin="round"></path>
+</svg>

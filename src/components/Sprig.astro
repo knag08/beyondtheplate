@@ -1,0 +1,24 @@
+---
+/** The site's ornament: a small sprig of three leaves. */
+interface Props {
+  class?: string;
+}
+const { class: className = 'h-5 w-auto' } = Astro.props;
+---
+
+<svg viewBox="0 0 96 24" class={className} fill="none" aria-hidden="true">
+  <path d="M4 12h32" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity="0.5"></path>
+  <path d="M92 12H60" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity="0.5"></path>
+  <path
+    d="M48 3c3.6 2 5.4 4.6 5.4 7.4 0 2-1 3.6-2.6 4.6"
+    stroke="currentColor"
+    stroke-width="1.2"
+    stroke-linecap="round"></path>
+  <path
+    d="M48 3c-3.6 2-5.4 4.6-5.4 7.4 0 2 1 3.6 2.6 4.6"
+    stroke="currentColor"
+    stroke-width="1.2"
+    stroke-linecap="round"></path>
+  <path d="M48 21v-7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+  <circle cx="48" cy="12.6" r="1.5" fill="currentColor"></circle>
+</svg>

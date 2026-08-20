@@ -1,0 +1,40 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'outline' | 'ghost' | 'light';
+  class?: string;
+  external?: boolean;
+}
+
+const { href, variant = 'primary', class: className = '', external = false } = Astro.props;
+
+const variants = {
+  primary: 'bg-apricot-600 text-white shadow-sm hover:bg-apricot-700 hover:shadow-md',
+  outline: 'border border-forest-900/20 text-forest-800 hover:border-forest-900/40 hover:bg-forest-900/[0.04]',
+  light: 'bg-white/95 text-forest-900 shadow-sm hover:bg-white',
+  ghost: 'border border-white/30 text-white hover:border-white/60 hover:bg-white/10',
+};
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  class:list={[
+    'group inline-flex items-center gap-2 rounded-full px-6 py-3 text-[0.9rem] font-bold transition-all duration-300',
+    variants[variant],
+    className,
+  ]}
+>
+  <slot />
+  <svg
+    viewBox="0 0 20 20"
+    class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    aria-hidden="true"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 10h11m0 0-4.2-4.2M15 10l-4.2 4.2"></path>
+  </svg>
+</a>

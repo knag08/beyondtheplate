@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Checklist from '../components/Checklist.astro';
+import Button from '../components/Button.astro';
+import Quote from '../components/Quote.astro';
+import Promises from '../components/Promises.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+import { childSigns } from '../data/content';
+import { photoById } from '../data/photos';
+
+const hero = photoById('snack-cucumber-toast-cutlets');
+---
+
+<BaseLayout
+  title="Is this your child?"
+  description="Fussy eating, mealtime battles, a very short list of accepted foods — eleven things parents describe again and again. If any of them sound familiar, you are not alone."
+>
+  <PageHero
+    eyebrow="Is this your child?"
+    title="Does mealtime sometimes feel like a daily struggle?"
+    lede="Below are the things parents describe to me again and again. Read the list and see how many you recognise — then know that none of them mean you are doing something wrong."
+    image={hero.src}
+    imageAlt={hero.alt}
+  />
+
+  <Section space="md">
+    <div class="grid gap-12 lg:grid-cols-[0.8fr_1fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <p class="eyebrow">Does your child…</p>
+        <h2 class="reveal mt-4 text-[1.8rem] leading-[1.16] font-semibold sm:text-[2.2rem]">
+          Eleven signs that mealtimes have become harder than they need to be.
+        </h2>
+        <p class="reveal mt-5 text-[1rem] leading-relaxed text-forest-600">
+          Recognising two or three is common. Recognising most of them usually means the difficulty is not about a
+          single food — it is about routines, feelings and the whole environment around eating.
+        </p>
+      </div>
+
+      <Checklist items={childSigns} mark="query" />
+    </div>
+  </Section>
+
+  <Section tone="deep" space="md">
+    <Quote attribution="And so, to be clear">If this sounds familiar, you are not alone.</Quote>
+
+    <div class="reveal mx-auto mt-12 max-w-2xl text-center">
+      <p class="text-[1.05rem] leading-relaxed text-forest-700">
+        You don’t need another set of rigid food rules. You need practical, personalised guidance that considers your
+        child, your family and your real life.
+      </p>
+    </div>
+
+    <div class="mt-10 flex justify-center">
+      <Promises align="center" />
+    </div>
+
+    <div class="reveal mt-12 flex flex-wrap justify-center gap-3">
+      <Button href="/approach/" variant="outline">How I look at it</Button>
+      <Button href="/coaching/" variant="outline">What we can work on</Button>
+    </div>
+  </Section>
+
+  <Section space="md">
+    <SectionHeading
+      align="center"
+      eyebrow="Why it is rarely just the food"
+      title="A refusal at the table usually has a reason behind it."
+      lede="Sleep, screens, snack timing, how the day has gone, how mealtimes feel, what the rest of the family is eating — all of it shapes what a child will and won’t accept. That is why the coaching looks at six things together rather than handing you a food list."
+      class="!max-w-2xl"
+    />
+    <div class="reveal mt-10 flex justify-center">
+      <Button href="/approach/" variant="primary">Look beyond the plate</Button>
+    </div>
+  </Section>
+
+  <CallToAction
+    eyebrow="Let’s make mealtimes easier"
+    title="Bring me the list you just read."
+    text="Every child is different, which is why the first conversation is mostly listening — to your child’s habits, your family’s routines and what you have already tried."
+    secondary={{ href: '/about/', label: 'About Dr. Tan' }}
+  />
+</BaseLayout>

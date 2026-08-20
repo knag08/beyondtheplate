@@ -1,0 +1,124 @@
+---
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '@fontsource-variable/nunito/wght.css';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { coach, contact, site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Set true on the home page so the header starts transparent over the hero. */
+  transparentHeader?: boolean;
+  ogImage?: string;
+}
+
+const { title, description = site.description, transparentHeader = false, ogImage = '/og-default.png' } = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const ogImageUrl = new URL(ogImage, Astro.site ?? site.url).href;
+
+const businessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HealthAndBeautyBusiness',
+  name: site.name,
+  url: site.url,
+  description: site.description,
+  slogan: 'Nourishing children. Empowering families.',
+  ...(contact.email ? { email: contact.email } : {}),
+  ...(contact.phone ? { telephone: contact.phone } : {}),
+  ...(contact.location ? { areaServed: contact.location } : {}),
+  founder: {
+    '@type': 'Person',
+    name: coach.name,
+    jobTitle: coach.credentials,
+    description: coach.experience,
+  },
+};
+---
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0f2019" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script is:inline>
+      // Opt in to the reveal animation only when we can guarantee it will finish.
+      (function () {
+        var root = document.documentElement;
+        root.classList.remove('no-js');
+        var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if ('IntersectionObserver' in window && motionOk) root.classList.add('js-reveal');
+      })();
+    </script>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(businessJsonLd)} />
+  </head>
+  <body class="min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-forest-900 focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white"
+    >
+      Skip to content
+    </a>
+
+    <Header transparent={transparentHeader} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script>
+      // Gentle reveal-on-scroll, active only when <html> carries `js-reveal`.
+      const items = Array.from(document.querySelectorAll<HTMLElement>('.reveal'));
+      const showAll = () => items.forEach((el) => el.classList.add('is-visible'));
+
+      if (!document.documentElement.classList.contains('js-reveal')) {
+        showAll();
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '120px 0px -6% 0px', threshold: 0.01 },
+        );
+        items.forEach((el, i) => {
+          el.style.transitionDelay = `${Math.min(i % 4, 3) * 90}ms`;
+          io.observe(el);
+        });
+
+        // Safety net: nothing should stay invisible because of a layout quirk.
+        window.setTimeout(showAll, 3000);
+      }
+    </script>
+  </body>
+</html>

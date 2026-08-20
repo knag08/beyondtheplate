@@ -1,0 +1,25 @@
+---
+import { promises } from '../data/content';
+
+interface Props {
+  class?: string;
+  align?: 'left' | 'center';
+}
+const { class: className = '', align = 'left' } = Astro.props;
+---
+
+<ul
+  class:list={[
+    'reveal flex flex-wrap items-center gap-x-3 gap-y-2',
+    align === 'center' && 'justify-center',
+    className,
+  ]}
+>
+  {
+    promises.map((promise) => (
+      <li class="rounded-full border border-apricot-300/70 bg-apricot-50 px-4 py-1.5 text-[0.85rem] font-bold text-apricot-800">
+        {promise}
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,295 @@
+---
+import { Image } from 'astro:assets';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import PillarCard from '../components/PillarCard.astro';
+import HelpCard from '../components/HelpCard.astro';
+import Checklist from '../components/Checklist.astro';
+import CredentialBand from '../components/CredentialBand.astro';
+import Promises from '../components/Promises.astro';
+import Quote from '../components/Quote.astro';
+import CallToAction from '../components/CallToAction.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+
+import { childSigns, helpAreas, pillars } from '../data/content';
+import { bookingHref, bookingIsExternal, coach } from '../data/site';
+import { photoById } from '../data/photos';
+
+const hero = photoById('snack-paneer-scramble-toast');
+const welcomeOne = photoById('breakfast-dosa-chutneys');
+const welcomeTwo = photoById('salad-sprouted-mung-chopped');
+const storyImage = photoById('veg-vegetable-stew-pan');
+
+/** The first handful of signs; the rest are on the dedicated page. */
+const teaserSigns = childSigns.slice(0, 6);
+
+const strip = [
+  'snack-tricolour-tea-sandwiches',
+  'lunch-red-curry-vegetables-rice',
+  'breakfast-appam-vegetable-curry',
+  'veg-mixed-vegetable-stir-fry',
+  'lunch-mash-stuffed-mushrooms',
+  'breakfast-millet-roti-chutney',
+].map(photoById);
+---
+
+<BaseLayout transparentHeader>
+  {/* ------------------------------------------------------------------ Hero */}
+  <section class="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-forest-950">
+    <Image
+      src={hero.src}
+      alt={hero.alt}
+      widths={[900, 1400, 2000]}
+      sizes="100vw"
+      class="absolute inset-0 h-full w-full object-cover object-[62%_center]"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/72 to-forest-950/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-forest-950/80 via-transparent to-transparent"></div>
+
+    <div class="relative mx-auto w-full max-w-7xl px-5 pt-32 pb-16 sm:px-8 sm:pb-20 lg:pb-24">
+      <div class="max-w-3xl">
+        <p class="eyebrow !text-apricot-300">Whole-child nutrition &amp; health coaching</p>
+        <h1 class="mt-5 text-[2.5rem] leading-[1.05] font-semibold text-white sm:text-[3.4rem] lg:text-[4.1rem]">
+          Because a healthy child<br class="hidden sm:block" /> is more than what they eat.
+        </h1>
+        <p class="mt-7 max-w-xl text-[1.05rem] leading-relaxed text-forest-100/85 sm:text-[1.15rem]">
+          Helping children develop healthy eating habits, positive routines, essential life skills and a healthy
+          relationship with food — while empowering families to create an environment where children can thrive.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3">
+          <Button href={bookingHref} variant="primary" external={bookingIsExternal}>
+            Start your child’s healthy journey
+          </Button>
+          <Button href="/approach/" variant="ghost">See the approach</Button>
+        </div>
+
+        <div class="mt-12 flex items-center gap-4 border-t border-white/15 pt-6">
+          <div>
+            <p class="font-display text-[1.05rem] font-semibold text-white">{coach.name}</p>
+            <p class="text-[0.85rem] text-forest-100/70">{coach.credentials}</p>
+            <p class="mt-1 text-[0.82rem] text-forest-100/55">{coach.experience}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-apricot-400/50 to-transparent">
+    </div>
+  </section>
+
+  {/* --------------------------------------------------- Is this your child? */}
+  <Section id="signs" tone="deep" space="lg">
+    <div class="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading
+          eyebrow="Is this your child?"
+          title="Does mealtime sometimes feel like a daily struggle?"
+          lede="Six of the eleven things parents most often describe to me. Read them and see how many you recognise."
+        />
+        <div class="reveal mt-9">
+          <Button href="/is-this-your-child/" variant="outline">See the whole list</Button>
+        </div>
+      </div>
+
+      <div>
+        <p class="reveal text-[0.95rem] font-bold text-forest-800">Does your child…</p>
+        <Checklist items={teaserSigns} mark="query" class="mt-2" />
+        <p class="reveal mt-8 font-display text-[1.4rem] leading-snug font-semibold text-forest-900 sm:text-[1.6rem]">
+          If this sounds familiar, you are not alone.
+        </p>
+        <p class="reveal mt-4 text-[1rem] leading-relaxed text-forest-600">
+          You don’t need another set of rigid food rules. You need practical, personalised guidance that considers your
+          child, your family and your real life.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  {/* --------------------------------------------------------------- Welcome */}
+  <Section id="welcome" space="lg">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="reveal">
+        <p class="eyebrow">Children are the building blocks of tomorrow</p>
+        <h2 class="mt-4 text-[2rem] leading-[1.14] font-semibold sm:text-[2.6rem]">
+          Mealtimes can be more than <em class="font-normal italic">putting food on a plate</em>.
+        </h2>
+        <div class="prose-plate mt-6">
+          <p>
+            The choices we make for children today can help create a strong foundation for their future. The right food
+            choices go a long way in supporting healthy growth, development, energy and lifelong well-being.
+          </p>
+          <p>
+            As parents, we invest so much time, thought and love into preparing meals for our children. Yet sometimes,
+            getting children to enjoy and eat those nourishing meals can be a challenge.
+          </p>
+          <p>
+            I believe mealtimes can be an opportunity to help children <strong
+              >discover, enjoy and develop a positive relationship with wholesome food</strong
+            >. When children learn to appreciate nutritious foods and become active participants in their food choices,
+            healthy eating can become something they enjoy — not something they are forced to do.
+          </p>
+          <p>
+            Because the love, time and care that parents put into nourishing their children deserve to become healthy
+            habits children can carry with them for years to come.
+          </p>
+        </div>
+
+        <p class="mt-8 font-display text-[1.35rem] leading-snug font-semibold text-forest-900">
+          Nourish their today. Strengthen their tomorrow.
+        </p>
+      </div>
+
+      <div class="reveal relative">
+        <div class="grid grid-cols-5 gap-4 sm:gap-5">
+          <div class="col-span-3">
+            <Image
+              src={welcomeOne.src}
+              alt={welcomeOne.alt}
+              widths={[400, 700]}
+              sizes="(min-width:1024px) 20rem, 55vw"
+              class="leafy aspect-[3/4] w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="col-span-2 self-end">
+            <Image
+              src={welcomeTwo.src}
+              alt={welcomeTwo.alt}
+              widths={[300, 560]}
+              sizes="(min-width:1024px) 13rem, 36vw"
+              class="plate aspect-square w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* ------------------------------------------------------------ Six lenses */}
+  <Section id="approach" tone="mist" space="lg">
+    <SectionHeading
+      eyebrow="Look beyond the plate"
+      title="A whole-child approach to health & well-being"
+      lede="A child’s well-being is shaped by much more than the food on their plate. My approach looks at the whole child — nutrition, eating habits, lifestyle, emotional well-being, family environment, and the skills they are developing for life."
+    />
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+      {pillars.map((pillar) => <PillarCard {...pillar} />)}
+    </div>
+
+    <div class="reveal mt-12 max-w-2xl">
+      <p class="font-display text-[1.35rem] leading-snug font-semibold text-forest-900">
+        Because the goal is bigger than a healthy plate.
+      </p>
+      <p class="mt-3 text-[1rem] leading-relaxed text-forest-600">
+        It’s about helping children develop the knowledge, habits, confidence and life skills they need to thrive.
+      </p>
+      <div class="mt-7">
+        <Button href="/approach/" variant="outline">Read the approach in full</Button>
+      </div>
+    </div>
+  </Section>
+
+  {/* ----------------------------------------------------------- How I help */}
+  <Section id="help" space="lg">
+    <SectionHeading
+      eyebrow="How I can help"
+      title="You don’t have to figure it out alone."
+      lede="I’m here to make healthy eating simpler, practical and achievable for your family."
+    />
+
+    <div class="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+      {helpAreas.map((area) => <HelpCard {...area} />)}
+    </div>
+
+    <div class="reveal mt-14">
+      <Button href="/coaching/" variant="outline">What we can work on together</Button>
+    </div>
+  </Section>
+
+  {/* ---------------------------------------------------------- Credentials */}
+  <Section id="story" tone="deep" space="md">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-16">
+      <div class="reveal">
+        <Image
+          src={storyImage.src}
+          alt={storyImage.alt}
+          widths={[500, 800]}
+          sizes="(min-width:1024px) 28rem, 90vw"
+          class="bowl aspect-[4/5] w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div>
+        <SectionHeading
+          eyebrow="My story"
+          title="Thirty years of clinical nutrition, brought home to the family kitchen."
+          lede="For three decades I worked with patients and families as a dietitian and Head of the Department in a super-specialty hospital in India. Over the years, I came to appreciate that nutrition is only one part of the picture."
+        />
+        <p class="reveal mt-5 text-[1rem] leading-relaxed text-forest-600">
+          Helping families shouldn’t begin only when a health concern arises. It should begin earlier — with knowledge,
+          guidance and healthy habits that can become part of everyday life.
+        </p>
+        <div class="reveal mt-8">
+          <Button href="/about/" variant="outline">More about Dr. Tan</Button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-14">
+      <CredentialBand />
+    </div>
+  </Section>
+
+  {/* ------------------------------------------------------------ Photographs */}
+  <Section id="photographs" space="lg">
+    <SectionHeading
+      eyebrow="Real food, real kitchens"
+      title="This is the food we are talking about."
+      lede="Everyday meals cooked at home — breakfasts, lunchboxes, dinners and the vegetables children actually eat. Nothing styled, nothing staged."
+    />
+    <div class="mt-12">
+      <PhotoGrid photos={strip} columns={3} />
+    </div>
+    <div class="reveal mt-10">
+      <Button href="/gallery/" variant="outline">See the gallery</Button>
+    </div>
+  </Section>
+
+  {/* ------------------------------------------------- Message for parents */}
+  <Section id="parents" tone="forest" space="lg">
+    <Quote invert attribution="A message for parents">
+      You put so much love into feeding your child. Let’s make every bite count.
+    </Quote>
+    <div class="reveal mx-auto mt-12 max-w-2xl text-center">
+      <p class="text-[1.02rem] leading-relaxed text-forest-100/75">
+        You don’t need to be a perfect parent. You don’t need to prepare elaborate meals every day. And you don’t need
+        to fight with your child over every bite. You need the right information, practical strategies and support to
+        help your family create healthier habits that actually fit into everyday life.
+      </p>
+      <p class="mt-7 font-display text-[1.3rem] leading-snug font-semibold text-white">
+        Your informed choice today can lay the foundation for your child’s vibrant tomorrow.
+      </p>
+    </div>
+    <div class="mt-10 flex justify-center">
+      <Promises align="center" />
+    </div>
+  </Section>
+
+  <CallToAction
+    eyebrow="Ready to begin?"
+    title="Give your child the foundation for a healthier future."
+    text="With personalised nutrition and holistic health coaching, we’ll look beyond the plate — at your child’s nutrition, lifestyle, emotional well-being, family environment and the skills they are building for life."
+    secondary={{ href: '/coaching/', label: 'Explore the programme' }}
+  />
+
+  <Lightbox />
+</BaseLayout>

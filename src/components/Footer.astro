@@ -1,0 +1,112 @@
+---
+import { contact, nav, site, coach, bookingHref, bookingIsExternal, booking } from '../data/site';
+import Sprig from './Sprig.astro';
+import Wordmark from './Wordmark.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative overflow-hidden bg-forest-950 text-forest-200">
+  <div
+    class="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-apricot-400/60 to-transparent"
+  >
+  </div>
+
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-3.5">
+          <Wordmark class="h-14 w-14 text-apricot-300" />
+          <div>
+            <p class="font-display text-lg font-semibold text-white">{site.name}</p>
+            <p class="text-[0.68rem] font-bold tracking-[0.16em] text-apricot-300 uppercase">
+              Nourishing children. Empowering families.
+            </p>
+          </div>
+        </div>
+        <p class="mt-6 max-w-sm text-[0.94rem] leading-relaxed text-forest-200/80">
+          Evidence-informed nutrition and holistic health coaching for school-age children and the families who care
+          for them.
+        </p>
+        <p class="mt-6 text-[0.85rem] leading-relaxed text-forest-300/80">
+          {coach.name} — {coach.credentials}
+        </p>
+      </div>
+
+      <nav aria-label="Footer">
+        <h2 class="text-[0.68rem] font-bold tracking-[0.18em] text-apricot-300 uppercase">Explore</h2>
+        <ul class="mt-5 space-y-2.5">
+          <li>
+            <a href="/" class="text-[0.92rem] text-forest-200/80 transition hover:text-white">Home</a>
+          </li>
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href} class="text-[0.92rem] text-forest-200/80 transition hover:text-white">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="text-[0.68rem] font-bold tracking-[0.18em] text-apricot-300 uppercase">Get in touch</h2>
+        <div class="mt-5 space-y-2.5">
+          {
+            contact.location && <p class="text-[0.92rem] text-forest-200/80">{contact.location}</p>
+          }
+          {
+            contact.email && (
+              <a
+                href={`mailto:${contact.email}`}
+                class="block text-[0.92rem] break-words text-forest-200/80 transition hover:text-white"
+              >
+                {contact.email}
+              </a>
+            )
+          }
+          {
+            contact.phone && (
+              <a
+                href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
+                class="block text-[0.92rem] text-forest-200/80 transition hover:text-white"
+              >
+                {contact.phone}
+              </a>
+            )
+          }
+          <a
+            href={bookingHref}
+            target={bookingIsExternal ? '_blank' : undefined}
+            rel={bookingIsExternal ? 'noopener' : undefined}
+            class="inline-flex items-center gap-1.5 text-[0.92rem] font-semibold text-apricot-300 transition hover:text-apricot-200"
+          >
+            {booking.label}
+            <svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 10h11m0 0-4.2-4.2M15 10l-4.2 4.2"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-14 flex justify-center">
+      <Sprig class="h-6 w-auto text-apricot-400/60" />
+    </div>
+
+    <div
+      class="mt-8 flex flex-col items-center gap-3 border-t border-white/10 pt-8 text-[0.78rem] text-forest-300/80 sm:flex-row sm:justify-between"
+    >
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p class="text-center sm:text-right">Nourish today. Empower for life.</p>
+    </div>
+
+    <p class="mt-6 text-[0.72rem] leading-relaxed text-forest-300/85">
+      Health and life coaching is educational and supportive in nature. It is not medical care, and nothing on this
+      site is a diagnosis, a treatment or a substitute for advice from your child’s physician. Please speak to your
+      child’s doctor about any medical concern.
+    </p>
+  </div>
+</footer>

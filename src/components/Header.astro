@@ -1,0 +1,181 @@
+---
+import { nav, site, bookingHref, bookingIsExternal, booking } from '../data/site';
+import Wordmark from './Wordmark.astro';
+
+interface Props {
+  transparent?: boolean;
+}
+const { transparent = false } = Astro.props;
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+
+<header
+  data-transparent={transparent ? 'true' : 'false'}
+  class:list={[
+    'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500',
+    transparent ? 'bg-transparent' : 'bg-cream/90 shadow-[0_1px_0_rgba(26,50,41,0.08)] backdrop-blur-md',
+  ]}
+  id="site-header"
+>
+  <div class="mx-auto flex max-w-7xl items-center gap-4 px-5 py-3.5 sm:px-8 lg:py-4">
+    <a href="/" class="group flex shrink-0 items-center gap-3" aria-label={`${site.name} — home`}>
+      <Wordmark
+        class="h-11 w-11 shrink-0 text-forest-800 transition-transform duration-500 group-hover:scale-105 lg:h-12 lg:w-12 [[data-transparent='true']_&]:text-white"
+      />
+      <span class="leading-tight">
+        <span
+          class="block font-display text-[1rem] font-semibold tracking-tight text-forest-900 sm:text-[1.1rem] [[data-transparent='true']_&]:text-white"
+          >Beyond the Plate</span
+        >
+        <span
+          class="hidden text-[0.64rem] font-bold tracking-[0.16em] text-apricot-700 uppercase sm:block [[data-transparent='true']_&]:text-apricot-200"
+          >Nutrition &amp; Health Coaching</span
+        >
+      </span>
+    </a>
+
+    <nav class="ml-auto hidden items-center gap-0.5 xl:flex" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'relative rounded-full px-3 py-2 text-[0.82rem] font-semibold whitespace-nowrap transition-colors',
+              'text-forest-700 hover:text-apricot-700',
+              "[[data-transparent='true']_&]:text-white/85 [[data-transparent='true']_&]:hover:text-white",
+              isActive(item.href) && 'text-apricot-700 [[data-transparent=\'true\']_&]:text-white',
+            ]}
+          >
+            {item.label}
+            {isActive(item.href) && (
+              <span class="absolute inset-x-3 -bottom-0.5 h-px bg-apricot-500 [[data-transparent='true']_&]:bg-apricot-200" />
+            )}
+          </a>
+        ))
+      }
+      <a
+        href={bookingHref}
+        target={bookingIsExternal ? '_blank' : undefined}
+        rel={bookingIsExternal ? 'noopener' : undefined}
+        class="ml-2 rounded-full bg-apricot-600 px-4 py-2 text-[0.82rem] font-bold whitespace-nowrap text-white shadow-sm transition hover:bg-apricot-700"
+        >{booking.label}</a
+      >
+    </nav>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="ml-auto grid h-11 w-11 place-items-center rounded-full text-forest-800 transition hover:bg-forest-900/5 xl:hidden [[data-transparent='true']_&]:text-white [[data-transparent='true']_&]:hover:bg-white/10"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="sr-only">Open menu</span>
+      <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <path stroke-linecap="round" d="M3.5 7h17M3.5 12h17M3.5 17h17"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div
+  id="mobile-menu"
+  class="invisible fixed inset-0 z-[60] opacity-0 transition-opacity duration-300 xl:hidden"
+  aria-hidden="true"
+>
+  <div class="absolute inset-0 bg-forest-950/60 backdrop-blur-sm" data-close></div>
+  <nav
+    class="absolute inset-y-0 right-0 flex w-[min(22rem,88vw)] translate-x-full flex-col bg-cream shadow-2xl transition-transform duration-[400ms] ease-out"
+    id="mobile-panel"
+    aria-label="Primary"
+  >
+    <div class="flex items-center justify-between border-b border-forest-900/10 px-5 py-4">
+      <span class="flex items-center gap-2.5">
+        <Wordmark class="h-9 w-9 text-forest-800" />
+        <span class="font-display text-[0.98rem] font-semibold text-forest-900">Beyond the Plate</span>
+      </span>
+      <button
+        type="button"
+        data-close
+        class="grid h-10 w-10 place-items-center rounded-full text-forest-700 hover:bg-forest-900/5"
+      >
+        <span class="sr-only">Close menu</span>
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto px-3 py-4">
+      <a
+        href="/"
+        aria-current={path === '/' ? 'page' : undefined}
+        class="block rounded-xl px-4 py-3 text-[0.95rem] font-semibold text-forest-800 hover:bg-apricot-50">Home</a
+      >
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'block rounded-xl px-4 py-3 text-[0.95rem] font-semibold hover:bg-apricot-50',
+              isActive(item.href) ? 'bg-apricot-50 text-apricot-700' : 'text-forest-800',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="border-t border-forest-900/10 p-4">
+      <a
+        href={bookingHref}
+        target={bookingIsExternal ? '_blank' : undefined}
+        rel={bookingIsExternal ? 'noopener' : undefined}
+        class="block rounded-full bg-apricot-600 px-5 py-3 text-center text-[0.9rem] font-bold text-white"
+        >{booking.label}</a
+      >
+    </div>
+  </nav>
+</div>
+
+<script>
+  const header = document.getElementById('site-header');
+  const menu = document.getElementById('mobile-menu');
+  const panel = document.getElementById('mobile-panel');
+  const toggle = document.getElementById('menu-toggle');
+
+  // A transparent header turns solid once the hero has scrolled past.
+  if (header?.dataset.transparent === 'true') {
+    const solid = ['bg-cream/90', 'shadow-[0_1px_0_rgba(26,50,41,0.08)]', 'backdrop-blur-md'];
+    const onScroll = () => {
+      const past = window.scrollY > 80;
+      header.dataset.transparent = past ? 'false' : 'true';
+      solid.forEach((c) => header.classList.toggle(c, past));
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  const setMenu = (open: boolean) => {
+    if (!menu || !panel || !toggle) return;
+    menu.classList.toggle('invisible', !open);
+    menu.classList.toggle('opacity-0', !open);
+    menu.setAttribute('aria-hidden', String(!open));
+    panel.classList.toggle('translate-x-full', !open);
+    toggle.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) panel.querySelector<HTMLElement>('[data-close]')?.focus();
+  };
+
+  toggle?.addEventListener('click', () => setMenu(true));
+  menu?.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', () => setMenu(false)));
+  menu?.querySelectorAll('a').forEach((el) => el.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+  });
+</script>

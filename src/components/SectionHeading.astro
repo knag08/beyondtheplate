@@ -1,0 +1,38 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  align?: 'left' | 'center';
+  /** Use on the dark forest background. */
+  invert?: boolean;
+  class?: string;
+}
+
+const { eyebrow, title, lede, align = 'left', invert = false, class: className = '' } = Astro.props;
+---
+
+<div class:list={['reveal max-w-3xl', align === 'center' && 'mx-auto text-center', className]}>
+  {eyebrow && <p class:list={['eyebrow', invert && '!text-apricot-300']}>{eyebrow}</p>}
+  <h2
+    class:list={[
+      'mt-3 text-[2rem] leading-[1.12] font-semibold sm:text-[2.5rem] lg:text-[2.9rem]',
+      invert && '!text-white',
+    ]}
+  >
+    {title}
+  </h2>
+  {
+    lede && (
+      <p
+        class:list={[
+          'mt-5 text-[1.05rem] leading-relaxed sm:text-[1.12rem]',
+          invert ? 'text-forest-100/75' : 'text-forest-600',
+        ]}
+      >
+        {lede}
+      </p>
+    )
+  }
+  <slot />
+</div>

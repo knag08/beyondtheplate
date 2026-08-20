@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PillarCard from '../components/PillarCard.astro';
+import Button from '../components/Button.astro';
+import Quote from '../components/Quote.astro';
+import Promises from '../components/Promises.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+import { pillars } from '../data/content';
+import { photoById } from '../data/photos';
+
+const hero = photoById('veg-mixed-vegetable-stir-fry');
+const philosophyImage = photoById('salad-asparagus-peppers-cutlets');
+---
+
+<BaseLayout
+  title="The approach"
+  description="A whole-child approach to health and well-being: nutrition, eating habits, lifestyle, emotional well-being, family environment and life skills — looked at together, not one at a time."
+>
+  <PageHero
+    eyebrow="Look beyond the plate"
+    title="A whole-child approach to health & well-being"
+    lede="A child’s well-being is shaped by much more than the food on their plate. My approach looks at the whole child — and at the family around them."
+    image={hero.src}
+    imageAlt={hero.alt}
+  />
+
+  {/* ---------------------------------------------------------- Six lenses */}
+  <Section space="md">
+    <SectionHeading
+      eyebrow="Six lenses"
+      title="What we look at, and why each one matters."
+      lede="None of these works on its own. A perfect meal plan will not survive a child who is short of sleep, and the calmest mealtime in the world cannot make up for food that isn’t nourishing. So we look at them together."
+    />
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+      {pillars.map((pillar) => <PillarCard {...pillar} />)}
+    </div>
+  </Section>
+
+  {/* ------------------------------------------------------- Bigger than a plate */}
+  <Section tone="forest" space="md">
+    <Quote invert attribution="The goal">
+      Because the goal is bigger than a healthy plate.
+    </Quote>
+    <p class="reveal mx-auto mt-10 max-w-2xl text-center text-[1.02rem] leading-relaxed text-forest-100/75">
+      It’s about helping children develop the knowledge, habits, confidence and life skills they need to thrive.
+    </p>
+  </Section>
+
+  {/* --------------------------------------------------------- Nourish. Grow. Thrive. */}
+  <Section space="lg">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
+      <div class="reveal">
+        <p class="eyebrow">My approach</p>
+        <h2 class="mt-4 font-display text-[2.2rem] leading-[1.1] font-semibold sm:text-[2.8rem]">
+          Nourish. Grow. Thrive.
+        </h2>
+        <div class="prose-plate mt-6">
+          <p>
+            My approach focuses on <strong>sustainable dietary practices for long-term health and vitality</strong>.
+            Rather than temporary diets or restrictive rules, I help children and families develop healthy habits that
+            can support optimal well-being, steady energy, growth and overall health for years to come.
+          </p>
+          <p>
+            Together, we focus on choosing nutrient-dense, wholesome foods that nourish the body and provide the
+            essential nutrients children need to thrive.
+          </p>
+          <p>
+            Because healthy eating isn’t about being perfect. It’s about making informed, sustainable choices that
+            become a natural part of everyday life.
+          </p>
+        </div>
+
+        <Promises class="mt-8" />
+
+        <p class="reveal mt-8 font-display text-[1.3rem] leading-snug font-semibold text-forest-900">
+          Simple enough to follow. Flexible enough to last.
+        </p>
+
+        <div class="reveal mt-9">
+          <Button href="/coaching/" variant="outline">How that works in practice</Button>
+        </div>
+      </div>
+
+      <div class="reveal relative">
+        <Image
+          src={philosophyImage.src}
+          alt={philosophyImage.alt}
+          widths={[500, 900]}
+          sizes="(min-width:1024px) 30rem, 90vw"
+          class="leafy aspect-[4/5] w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </Section>
+
+  <CallToAction
+    title="Every child is different. Their plan should be too."
+    text="Nothing here is one-size-fits-all. Your child’s programme is built around their needs, preferences, routines and stage of development — and around what is realistic for your family."
+    secondary={{ href: '/coaching/', label: 'What we can work on' }}
+  />
+</BaseLayout>

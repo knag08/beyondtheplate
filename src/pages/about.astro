@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CredentialBand from '../components/CredentialBand.astro';
+import Button from '../components/Button.astro';
+import Quote from '../components/Quote.astro';
+import Promises from '../components/Promises.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+import { coach } from '../data/site';
+import { photoById } from '../data/photos';
+
+const hero = photoById('veg-vegetable-stew-pan');
+const kitchenOne = photoById('breakfast-steamed-idli-container');
+const kitchenTwo = photoById('veg-okra-fry');
+---
+
+<BaseLayout
+  title="About Dr. Indu Tan"
+  description="Nearly 30 years as a dietitian and Head of Department in a super-specialty hospital in India, advanced training in holistic medicine, and board certification in health and life coaching — brought together into a whole-child approach to family wellness."
+>
+  <PageHero
+    eyebrow="My story"
+    title="Why I brought my experience into coaching"
+    lede={`${coach.name} — ${coach.credentials}`}
+    image={hero.src}
+    imageAlt={hero.alt}
+  />
+
+  <Section space="md">
+    <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+      <div class="prose-plate reveal">
+        <p>
+          For three decades, I worked with patients and families as a dietitian and <strong
+            >Head of the Department in a super-specialty hospital in India</strong
+          >. My work involved developing individualised nutritional plans designed around each person’s unique needs,
+          health concerns, lifestyle and goals.
+        </p>
+        <p>
+          Over the years, I came to appreciate that nutrition is only one part of the picture. The habits children
+          develop at home, the way families approach food, lifestyle, stress, sleep, movement and daily routines all
+          influence a child’s overall well-being.
+        </p>
+        <p>
+          I realised that helping families shouldn’t begin only when a health concern arises. It should begin earlier —
+          with knowledge, guidance and healthy habits that can become part of everyday life.
+        </p>
+        <p>
+          That realisation inspired me to bring my clinical nutrition experience into a more holistic approach to
+          coaching here in the United States.
+        </p>
+        <p>
+          With nearly 30 years of experience as a dietitian in a super-specialty hospital, advanced training in holistic
+          medicine, and board certification in health and life coaching, I bring a whole-child perspective to family
+          wellness.
+        </p>
+        <h2>What I am not here to do</h2>
+        <p>
+          My goal is not to prescribe extreme diets or rigid rules. Instead, I help families understand how everyday
+          choices — especially the foods children eat — can support their growth, energy, vitality, emotional well-being
+          and long-term health.
+        </p>
+        <p>
+          Together, we focus on practical, sustainable dietary practices and nutrient-dense foods that fit your child’s
+          individual needs and your family’s real life.
+        </p>
+      </div>
+
+      <div class="space-y-5">
+        <div class="reveal">
+          <Image
+            src={kitchenOne.src}
+            alt={kitchenOne.alt}
+            widths={[400, 700]}
+            sizes="(min-width:1024px) 24rem, 90vw"
+            class="leafy aspect-[4/5] w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="reveal">
+          <Image
+            src={kitchenTwo.src}
+            alt={kitchenTwo.alt}
+            widths={[400, 700]}
+            sizes="(min-width:1024px) 24rem, 90vw"
+            class="plate aspect-square w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="deep" space="md">
+    <Quote attribution="What it comes down to">
+      Raising a healthy child is not just about what is on the plate. It is about creating an environment where healthy
+      choices become simple, natural and sustainable for the whole family.
+    </Quote>
+    <div class="mt-10 flex justify-center">
+      <Promises align="center" />
+    </div>
+  </Section>
+
+  <Section space="md">
+    <SectionHeading
+      eyebrow="Background"
+      title="The experience behind the coaching."
+      lede="Every figure below is a plain statement of Dr. Tan’s professional background."
+    />
+    <div class="mt-10">
+      <CredentialBand />
+    </div>
+    <div class="reveal mt-12 flex flex-wrap gap-3">
+      <Button href="/approach/" variant="outline">The whole-child approach</Button>
+      <Button href="/coaching/" variant="outline">How I can help</Button>
+    </div>
+  </Section>
+
+  <CallToAction
+    title="Let’s talk about your child."
+    text="A first conversation is mostly listening — to your child’s habits and preferences, your family’s routines, and everything you have already tried."
+    secondary={{ href: '/contact/', label: 'Get in touch' }}
+  />
+</BaseLayout>

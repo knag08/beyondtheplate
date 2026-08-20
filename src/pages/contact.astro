@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import Sprig from '../components/Sprig.astro';
+import Promises from '../components/Promises.astro';
+import Icon from '../components/Icon.astro';
+
+import { booking, coach, contact } from '../data/site';
+import { photoById } from '../data/photos';
+
+const hero = photoById('breakfast-appam-vegetable-curry');
+
+const mailSubject = encodeURIComponent('Coaching enquiry — Beyond the Plate');
+const hasAnyContact = Boolean(booking.url || contact.email || contact.phone);
+
+const steps = [
+  {
+    icon: 'mealtime' as const,
+    title: 'We talk',
+    text: 'A first conversation, mostly listening — your child’s habits and preferences, your family’s routines, and everything you have already tried.',
+  },
+  {
+    icon: 'plate' as const,
+    title: 'We look at the whole child',
+    text: 'Nutrition, eating habits, lifestyle, emotional well-being, family environment and the life skills your child is building.',
+  },
+  {
+    icon: 'sprout' as const,
+    title: 'We build something you can keep',
+    text: 'A personalised, practical plan made of habits that fit your real week — not a diet to survive for a fortnight.',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Book a consultation with Dr. Indu Tan, or ask a question first. Whole-child nutrition and health coaching for school-age children and their families."
+>
+  <PageHero
+    eyebrow="Your child’s journey starts here"
+    title="Let’s talk about your child."
+    lede="Nourish today. Empower for life."
+    image={hero.src}
+    imageAlt={hero.alt}
+  />
+
+  <Section space="md">
+    <div class="grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
+      <div>
+        <SectionHeading
+          eyebrow="Get in touch"
+          title="Two ways to begin."
+          lede="Book a consultation if you already know you want to start. Send a question first if you would rather understand how the coaching works before committing to anything."
+        />
+
+        {/*
+          Everything below reads from src/data/site.ts. Fill in `booking.url`,
+          `contact.email`, `contact.phone` and `contact.location` there and the
+          right panels appear on their own.
+        */}
+        <div class="reveal mt-10 space-y-4">
+          {
+            booking.url && (
+              <a
+                href={booking.url}
+                target="_blank"
+                rel="noopener"
+                class="group flex items-start gap-4 rounded-3xl border border-apricot-300 bg-apricot-50 p-6 transition hover:border-apricot-500 sm:p-7"
+              >
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-apricot-600 text-white">
+                  <Icon name="habits" class="h-5.5 w-5.5" />
+                </span>
+                <span>
+                  <span class="block font-display text-[1.15rem] font-semibold text-forest-900">{booking.label}</span>
+                  <span class="mt-1 block text-[0.92rem] leading-relaxed text-forest-600">
+                    Pick a time that suits you. Opens the scheduling page in a new tab.
+                  </span>
+                </span>
+              </a>
+            )
+          }
+
+          {
+            contact.email && (
+              <a
+                href={`mailto:${contact.email}?subject=${mailSubject}`}
+                class="group flex items-start gap-4 rounded-3xl border border-forest-900/12 bg-white p-6 transition hover:border-forest-900/30 sm:p-7"
+              >
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-sage-mist text-forest-700">
+                  <Icon name="menu" class="h-5.5 w-5.5" />
+                </span>
+                <span>
+                  <span class="block font-display text-[1.15rem] font-semibold text-forest-900">Send an email</span>
+                  <span class="mt-1 block text-[0.92rem] break-words text-forest-600">{contact.email}</span>
+                </span>
+              </a>
+            )
+          }
+
+          {
+            contact.phone && (
+              <a
+                href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
+                class="group flex items-start gap-4 rounded-3xl border border-forest-900/12 bg-white p-6 transition hover:border-forest-900/30 sm:p-7"
+              >
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-sage-mist text-forest-700">
+                  <Icon name="empower" class="h-5.5 w-5.5" />
+                </span>
+                <span>
+                  <span class="block font-display text-[1.15rem] font-semibold text-forest-900">Call</span>
+                  <span class="mt-1 block text-[0.92rem] text-forest-600">{contact.phone}</span>
+                </span>
+              </a>
+            )
+          }
+
+          {
+            !hasAnyContact && (
+              /* Placeholder panel — remove once booking.url or contact.email is set in src/data/site.ts */
+              <div class="rounded-3xl border border-dashed border-forest-900/25 bg-white p-7">
+                <p class="font-display text-[1.15rem] font-semibold text-forest-900">Booking opens shortly</p>
+                <p class="mt-2 text-[0.95rem] leading-relaxed text-forest-600">
+                  The scheduling link and contact details for {coach.name} are being finalised and will appear here.
+                </p>
+              </div>
+            )
+          }
+        </div>
+
+        {contact.location && <p class="reveal mt-8 text-[0.9rem] text-forest-500">{contact.location}</p>}
+
+        <div class="reveal mt-10">
+          <Promises />
+        </div>
+      </div>
+
+      <aside class="reveal rounded-3xl bg-cream-deep p-7 sm:p-9">
+        <Sprig class="h-5 w-auto text-apricot-500/70" />
+        <h2 class="mt-6 text-[1.4rem] leading-snug font-semibold">What happens next</h2>
+        <ol class="mt-7 space-y-7">
+          {
+            steps.map((step, i) => (
+              <li class="flex gap-4">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-white text-forest-600">
+                  <Icon name={step.icon} class="h-5 w-5" />
+                </span>
+                <span>
+                  <span class="block text-[0.7rem] font-bold tracking-[0.16em] text-apricot-700 uppercase">
+                    Step {i + 1}
+                  </span>
+                  <span class="mt-1 block font-display text-[1.05rem] font-semibold text-forest-900">{step.title}</span>
+                  <span class="mt-1.5 block text-[0.92rem] leading-relaxed text-forest-600">{step.text}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="mt-9 border-t border-forest-900/10 pt-6 text-[0.85rem] leading-relaxed text-forest-600">
+          {coach.name} — {coach.credentials}. {coach.experience}.
+        </p>
+      </aside>
+    </div>
+  </Section>
+
+  <Section tone="deep" space="sm">
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <h2 class="text-[1.6rem] leading-snug font-semibold sm:text-[1.9rem]">Not sure it’s the right fit yet?</h2>
+      <p class="mt-4 text-[1rem] leading-relaxed text-forest-600">
+        Read the checklist first. If most of it sounds like your dinner table, this is exactly the work.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button href="/is-this-your-child/" variant="primary">Is this your child?</Button>
+        <Button href="/approach/" variant="outline">The approach</Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

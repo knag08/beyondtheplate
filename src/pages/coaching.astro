@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import HelpCard from '../components/HelpCard.astro';
+import Checklist from '../components/Checklist.astro';
+import Button from '../components/Button.astro';
+import Quote from '../components/Quote.astro';
+import Promises from '../components/Promises.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+import { helpAreas, workTogether } from '../data/content';
+import { photoById } from '../data/photos';
+
+const hero = photoById('snack-tricolour-tea-sandwiches');
+const planImage = photoById('lunch-mash-roasted-vegetables-bowl');
+---
+
+<BaseLayout
+  title="How I can help"
+  description="Meal planning, kid-friendly menus, picky eating and food variety, mealtime routines, sleep, movement, hydration, screen habits and food-related life skills — personalised to your child."
+>
+  <PageHero
+    eyebrow="How I can help"
+    title="You don’t have to figure it out alone."
+    lede="I’m here to make healthy eating simpler, practical and achievable for your family."
+    image={hero.src}
+    imageAlt={hero.alt}
+  />
+
+  {/* ------------------------------------------------------------ Six ways */}
+  <Section space="md">
+    <div class="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      {helpAreas.map((area) => <HelpCard {...area} />)}
+    </div>
+  </Section>
+
+  {/* ------------------------------------------------------ Work together */}
+  <Section tone="deep" space="md">
+    <div class="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading
+          eyebrow="What we can work on together"
+          title="Your child’s programme is personalised to their needs and your family’s goals."
+          lede="These are the things we may explore. Which of them we actually spend time on depends entirely on your child."
+        />
+        <div class="reveal mt-9">
+          <Image
+            src={planImage.src}
+            alt={planImage.alt}
+            widths={[400, 700]}
+            sizes="(min-width:1024px) 24rem, 90vw"
+            class="bowl aspect-[4/3] w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <Checklist items={workTogether} mark="tick" columns={2} />
+    </div>
+
+    <div class="reveal mt-14 max-w-2xl">
+      <p class="font-display text-[1.35rem] leading-snug font-semibold text-forest-900">Every child is different.</p>
+      <p class="mt-3 text-[1rem] leading-relaxed text-forest-600">
+        That’s why your child’s journey should be personalised — not one-size-fits-all.
+      </p>
+    </div>
+  </Section>
+
+  {/* ------------------------------------------------------------- Promise */}
+  <Section tone="forest" space="md">
+    <Quote invert attribution="What you will not get">
+      No extreme diets. No rigid rules. No guilt.
+    </Quote>
+    <p class="reveal mx-auto mt-10 max-w-2xl text-center text-[1.02rem] leading-relaxed text-forest-100/75">
+      Just personalised guidance, sustainable habits, and a healthier relationship with food and well-being.
+    </p>
+  </Section>
+
+  {/* -------------------------------------------------- Message to parents */}
+  <Section space="md">
+    <SectionHeading
+      align="center"
+      eyebrow="A message for parents"
+      title="You put so much love into feeding your child. Let’s make every bite count."
+      lede="You don’t need to be a perfect parent. You don’t need to prepare elaborate meals every day. And you don’t need to fight with your child over every bite. You need the right information, practical strategies and support to help your family create healthier habits that actually fit into everyday life."
+      class="!max-w-2xl"
+    />
+    <p
+      class="reveal mx-auto mt-8 max-w-2xl text-center font-display text-[1.3rem] leading-snug font-semibold text-forest-900"
+    >
+      Your informed choice today can lay the foundation for your child’s vibrant tomorrow.
+    </p>
+    <div class="mt-9 flex justify-center">
+      <Promises align="center" />
+    </div>
+    <div class="reveal mt-10 flex flex-wrap justify-center gap-3">
+      <Button href="/is-this-your-child/" variant="outline">Is this your child?</Button>
+      <Button href="/gallery/" variant="outline">See the food</Button>
+    </div>
+  </Section>
+
+  <CallToAction
+    eyebrow="Your child’s journey starts here"
+    title="Your child. Your family. Their healthier future."
+    text="Nourish today. Empower for life."
+    secondary={{ href: '/contact/', label: 'Ask a question first' }}
+  />
+</BaseLayout>

@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+
+   The palette comes from the food itself: the deep green of leaves and herbs,
+   the warm apricot of roasted carrot and mango, a berry red used sparingly,
+   all laid on a warm cream ground the colour of a plate.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Forest — deep leaf green. Body text, dark sections. */
+  --color-forest-50: #f2f7f4;
+  --color-forest-100: #e0ece5;
+  --color-forest-200: #c0d9cb;
+  --color-forest-300: #93bda8;
+  --color-forest-400: #5f9a80;
+  --color-forest-500: #3f7c62;
+  --color-forest-600: #2d634e;
+  --color-forest-700: #254e3f;
+  --color-forest-800: #1f3e33;
+  --color-forest-900: #1a3229;
+  --color-forest-950: #0f2019;
+
+  /* Leaf — fresh green. Small ornament and tinted surfaces. */
+  --color-leaf-200: #d3e8c9;
+  --color-leaf-300: #a8cf9a;
+  --color-leaf-400: #86bb74;
+  --color-leaf-500: #66a352;
+  --color-leaf-600: #4e8a3d;
+
+  /* Apricot — roasted carrot, ripe mango. Eyebrows and the primary action. */
+  --color-apricot-50: #fdf6ee;
+  --color-apricot-100: #fae9d5;
+  --color-apricot-200: #f4d2a9;
+  --color-apricot-300: #ecb374;
+  --color-apricot-400: #e2934a;
+  --color-apricot-500: #d47a2b;
+  --color-apricot-600: #b55f20;
+  --color-apricot-700: #90491d;
+  --color-apricot-800: #753c1e;
+  --color-apricot-900: #61331c;
+
+  /* Berry — used very sparingly, for emphasis inside text. */
+  --color-berry-500: #c2415c;
+  --color-berry-600: #a53049;
+
+  /* Grounds */
+  --color-cream: #fbf8f2;
+  --color-cream-deep: #f4ece0;
+  --color-sage-mist: #eaf1ea;
+
+  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Nunito Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-gentle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      scroll-behavior: auto;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-forest-800);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-forest-900);
+    text-wrap: balance;
+    letter-spacing: -0.012em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One focus ring for the whole site. */
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-apricot-600);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--color-apricot-200);
+    color: var(--color-forest-900);
+  }
+}
+
+@layer components {
+  /* The structural motifs: a plate, and a leaf. */
+  .plate {
+    border-radius: 9999px;
+    overflow: clip;
+  }
+
+  .leafy {
+    border-radius: 5.5rem 1.25rem 5.5rem 1.25rem;
+    overflow: clip;
+  }
+
+  .bowl {
+    border-radius: 1.5rem 1.5rem 999px 999px;
+    overflow: clip;
+  }
+
+  /* Small caps label above section headings. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* apricot-700, not 600: at this size the lighter tone drops below 4.5:1
+       against the cream ground. */
+    color: var(--color-apricot-700);
+  }
+
+  .prose-plate {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-forest-700);
+  }
+
+  .prose-plate p + p {
+    margin-top: 1.15em;
+  }
+
+  .prose-plate strong {
+    color: var(--color-forest-900);
+    font-weight: 700;
+  }
+
+  .prose-plate em {
+    font-style: italic;
+  }
+
+  .prose-plate h2 {
+    font-size: 1.75rem;
+    margin-top: 2.25em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose-plate h3 {
+    font-size: 1.3125rem;
+    margin-top: 1.85em;
+    margin-bottom: 0.4em;
+  }
+
+  .prose-plate ul {
+    margin-top: 1.1em;
+    display: grid;
+    gap: 0.6em;
+  }
+
+  .prose-plate li {
+    position: relative;
+    padding-left: 1.6em;
+  }
+
+  /* A tiny leaf, rather than a bullet. */
+  .prose-plate li::before {
+    content: '';
+    position: absolute;
+    left: 0.1em;
+    top: 0.62em;
+    width: 0.62em;
+    height: 0.62em;
+    background: var(--color-leaf-500);
+    border-radius: 999px 0 999px 0;
+    rotate: -20deg;
+  }
+
+  .prose-plate a {
+    color: var(--color-forest-600);
+    text-decoration: underline;
+    text-decoration-color: var(--color-apricot-300);
+    text-underline-offset: 3px;
+  }
+
+  .prose-plate a:hover {
+    color: var(--color-apricot-700);
+  }
+}
+
+@layer utilities {
+  /*
+   * Reveal-on-scroll.
+   * Content is visible by default; it is hidden only once the head script has
+   * confirmed that JS, IntersectionObserver and full motion are all available
+   * and has put `js-reveal` on <html>. If anything goes wrong the page still
+   * reads — it simply does not animate.
+   */
+  .js-reveal .reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .js-reveal .reveal {
+    transition:
+      opacity 0.7s var(--ease-gentle),
+      transform 0.7s var(--ease-gentle);
+  }
+}

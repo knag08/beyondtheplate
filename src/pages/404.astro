@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Sprig from '../components/Sprig.astro';
+import { nav } from '../data/site';
+---
+
+<BaseLayout title="Page not found" description="That page could not be found.">
+  <section class="mx-auto flex min-h-[70svh] max-w-3xl flex-col justify-center px-5 py-32 text-center sm:px-8">
+    <Sprig class="mx-auto h-6 w-auto text-apricot-500/70" />
+    <p class="eyebrow mt-8">Nothing on this plate</p>
+    <h1 class="mt-4 text-[2.3rem] leading-[1.1] font-semibold sm:text-[3rem]">We couldn’t find that page.</h1>
+    <p class="mx-auto mt-6 max-w-lg text-[1.02rem] leading-relaxed text-forest-600">
+      The link may be out of date, or the page may have moved. Here is everything else on the site.
+    </p>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-2.5">
+      <Button href="/" variant="primary">Home</Button>
+      {nav.map((item) => <Button href={item.href} variant="outline">{item.label}</Button>)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,129 @@
+---
+/**
+ * One lightbox per page. It reads the rendered <img> inside any
+ * [data-lightbox] button, so it works with Astro's optimised images without
+ * duplicating the asset list.
+ */
+---
+
+<dialog
+  id="lightbox"
+  class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-forest-950/92 backdrop:backdrop-blur-sm"
+  aria-label="Photo viewer"
+>
+  <div class="relative flex h-full w-full flex-col">
+    <div class="flex items-center justify-between px-4 py-3 sm:px-6">
+      <p class="text-[0.78rem] font-semibold tracking-wide text-white/60 tabular-nums" data-lb-count></p>
+      <button
+        type="button"
+        data-lb-close
+        class="grid h-11 w-11 place-items-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white"
+      >
+        <span class="sr-only">Close</span>
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="relative flex min-h-0 flex-1 items-center justify-center px-4 sm:px-16">
+      <button
+        type="button"
+        data-lb-prev
+        class="absolute left-1 grid h-12 w-12 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white sm:left-4"
+      >
+        <span class="sr-only">Previous photo</span>
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.5 5 8 12l6.5 7"></path>
+        </svg>
+      </button>
+
+      <img data-lb-image alt="" class="h-full w-full rounded-lg object-contain py-2 shadow-2xl" />
+
+      <button
+        type="button"
+        data-lb-next
+        class="absolute right-1 grid h-12 w-12 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white sm:right-4"
+      >
+        <span class="sr-only">Next photo</span>
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 5 16 12l-6.5 7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <p class="px-6 py-5 text-center text-[0.86rem] leading-relaxed text-white/70" data-lb-caption></p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+  if (dialog) {
+    const imgEl = dialog.querySelector<HTMLImageElement>('[data-lb-image]')!;
+    const captionEl = dialog.querySelector<HTMLElement>('[data-lb-caption]')!;
+    const countEl = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+
+    let items: HTMLImageElement[] = [];
+    let current = 0;
+
+    /** The grid serves small thumbnails; the viewer wants the largest rendition. */
+    const bestSource = (img: HTMLImageElement) => {
+      const candidates = (img.srcset || '')
+        .split(',')
+        .map((part) => part.trim().split(/\s+/))
+        .filter((parts) => parts.length === 2)
+        .map(([url, descriptor]) => ({ url, width: parseInt(descriptor, 10) || 0 }))
+        .sort((a, b) => b.width - a.width);
+      return candidates[0]?.url || img.currentSrc || img.src;
+    };
+
+    const visibleTriggers = () =>
+      Array.from(document.querySelectorAll<HTMLButtonElement>('[data-lightbox]')).filter(
+        (b) => b.offsetParent !== null,
+      );
+
+    const show = (i: number) => {
+      if (!items.length) return;
+      current = (i + items.length) % items.length;
+      const source = items[current];
+      imgEl.src = bestSource(source);
+      imgEl.alt = source.alt;
+      captionEl.textContent = source.alt;
+      countEl.textContent = `${current + 1} / ${items.length}`;
+      const multiple = items.length > 1;
+      dialog.querySelector<HTMLElement>('[data-lb-prev]')!.hidden = !multiple;
+      dialog.querySelector<HTMLElement>('[data-lb-next]')!.hidden = !multiple;
+    };
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-lightbox]');
+      if (!trigger) return;
+      const triggers = visibleTriggers();
+      items = triggers.map((t) => t.querySelector('img')!).filter(Boolean);
+      show(triggers.indexOf(trigger));
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    });
+
+    const close = () => {
+      dialog.close();
+      document.body.style.overflow = '';
+    };
+
+    dialog.querySelector('[data-lb-close]')?.addEventListener('click', close);
+    dialog.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-lb-next]')?.addEventListener('click', () => show(current + 1));
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = '';
+    });
+    dialog.addEventListener('click', (event) => {
+      // Clicking the backdrop, outside the figure, closes the viewer.
+      if (event.target === dialog) close();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (!dialog.open) return;
+      if (event.key === 'ArrowRight') show(current + 1);
+      if (event.key === 'ArrowLeft') show(current - 1);
+    });
+  }
+</script>

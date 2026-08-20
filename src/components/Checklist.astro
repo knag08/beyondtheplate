@@ -1,0 +1,42 @@
+---
+interface Props {
+  items: readonly string[];
+  /** `tick` for a positive list, `query` for the “does your child…” list. */
+  mark?: 'tick' | 'query';
+  columns?: 1 | 2;
+  class?: string;
+}
+
+const { items, mark = 'tick', columns = 1, class: className = '' } = Astro.props;
+---
+
+<ul
+  class:list={[
+    'grid gap-x-8 gap-y-1',
+    columns === 2 && 'sm:grid-cols-2',
+    className,
+  ]}
+>
+  {
+    items.map((item) => (
+      <li class="reveal flex items-start gap-3.5 border-b border-forest-900/8 py-3.5">
+        <span
+          aria-hidden="true"
+          class:list={[
+            'mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full',
+            mark === 'tick' ? 'bg-leaf-200 text-forest-700' : 'bg-apricot-100 text-apricot-700',
+          ]}
+        >
+          {mark === 'tick' ? (
+            <svg viewBox="0 0 20 20" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 10.5 3.4 3.4L15.5 6" />
+            </svg>
+          ) : (
+            <span class="text-[0.72rem] font-bold">?</span>
+          )}
+        </span>
+        <span class="text-[0.98rem] leading-relaxed text-forest-700">{item}</span>
+      </li>
+    ))
+  }
+</ul>

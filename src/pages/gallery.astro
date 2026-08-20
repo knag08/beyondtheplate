@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+import { categories, countFor, photoById, photos } from '../data/photos';
+
+const hero = photoById('salad-asparagus-peppers-cutlets');
+const visible = categories.filter((c) => countFor(c.id) > 0);
+---
+
+<BaseLayout
+  title="Gallery"
+  description="Everyday meals cooked at home — breakfasts, lunchboxes, dinners, vegetables and salads. Nothing styled, nothing staged."
+>
+  <PageHero
+    eyebrow="Photographs"
+    title="What nutrient-dense actually looks like"
+    lede="Every photograph here is a real meal, cooked in a real kitchen and eaten the same day. No food styling, no props, nothing bought in for the picture."
+    image={hero.src}
+    imageAlt={hero.alt}
+  />
+
+  <Section space="md">
+    {/* Filters */}
+    <div class="reveal -mx-5 overflow-x-auto px-5 pb-2 sm:mx-0 sm:px-0" data-filter-bar>
+      <div class="flex w-max gap-2 sm:w-auto sm:flex-wrap">
+        {
+          visible.map((c, i) => (
+            <button
+              type="button"
+              data-filter={c.id}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              class:list={[
+                'rounded-full border px-4 py-2 text-[0.83rem] font-semibold whitespace-nowrap transition',
+                i === 0
+                  ? 'border-forest-950 bg-forest-950 text-white'
+                  : 'border-forest-900/15 bg-white text-forest-700 hover:border-forest-900/35',
+              ]}
+            >
+              {c.label}
+              <span class="ml-1.5 text-[0.72rem] opacity-75 tabular-nums">{countFor(c.id)}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="mt-6 text-[0.85rem] text-forest-500" data-filter-status aria-live="polite">
+      Showing all {photos.length} photographs. Tap any one to enlarge.
+    </p>
+
+    <div class="mt-8">
+      <PhotoGrid photos={photos} columns={4} />
+    </div>
+
+    <p class="mt-12 border-t border-forest-900/10 pt-8 text-[0.82rem] leading-relaxed text-forest-500">
+      These photographs belong to Dr. Indu Tan and are published here as a record of the food behind the coaching.
+      Please write before reproducing any of them elsewhere.
+    </p>
+  </Section>
+
+  <CallToAction
+    title="Meals like these, planned around your child."
+    text="Kid-friendly menus, balanced breakfasts and lunchboxes, and nutrient-dense choices that fit your family’s week — not a stock meal plan."
+    secondary={{ href: '/coaching/', label: 'How I can help' }}
+  />
+
+  <Lightbox />
+</BaseLayout>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-filter-bar]');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+  const figures = Array.from(document.querySelectorAll<HTMLElement>('[data-photo-grid] figure'));
+
+  const idle = ['border-forest-900/15', 'bg-white', 'text-forest-700', 'hover:border-forest-900/35'];
+
+  bar?.addEventListener('click', (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+    if (!button) return;
+
+    const wanted = button.dataset.filter!;
+
+    bar.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) => {
+      const on = b === button;
+      b.setAttribute('aria-pressed', String(on));
+      b.classList.toggle('border-forest-950', on);
+      b.classList.toggle('bg-forest-950', on);
+      b.classList.toggle('text-white', on);
+      idle.forEach((c) => b.classList.toggle(c, !on));
+    });
+
+    let shown = 0;
+    figures.forEach((fig) => {
+      const match = wanted === 'all' || fig.dataset.category === wanted;
+      fig.hidden = !match;
+      if (match) shown += 1;
+    });
+
+    if (status) {
+      const label = button.textContent?.replace(/\d+\s*$/, '').trim() ?? '';
+      status.textContent =
+        wanted === 'all'
+          ? `Showing all ${shown} photographs. Tap any one to enlarge.`
+          : `Showing ${shown} ${shown === 1 ? 'photograph' : 'photographs'} from ${label}.`;
+    }
+  });
+</script>

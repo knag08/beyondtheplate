@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Photo {
+  src: ImageMetadata;
+  alt: string;
+  /** Optional grouping key used by the gallery filter. */
+  category?: string;
+}
+
+interface Props {
+  photos: Photo[];
+  columns?: 2 | 3 | 4;
+  class?: string;
+}
+
+const { photos, columns = 3, class: className = '' } = Astro.props;
+
+// Two columns from the smallest screens up: a single column of sixty
+// photographs makes the gallery absurdly long on a phone.
+const colClass = {
+  2: 'sm:columns-2',
+  3: 'columns-2 lg:columns-3',
+  4: 'columns-2 lg:columns-3 xl:columns-4',
+}[columns];
+---
+
+<div class:list={['gap-3 [column-fill:_balance] sm:gap-5', colClass, className]} data-photo-grid>
+  {
+    photos.map((photo, i) => (
+      <figure class="mb-3 break-inside-avoid sm:mb-5" data-category={photo.category ?? 'all'}>
+        <button
+          type="button"
+          class="group relative block w-full overflow-hidden rounded-2xl bg-cream-deep ring-1 ring-forest-900/8 transition duration-500 hover:ring-forest-900/20"
+          data-lightbox
+          data-index={i}
+          aria-label={`View larger: ${photo.alt}`}
+        >
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            widths={[320, 560, 900]}
+            sizes="(min-width:1280px) 20rem, (min-width:640px) 30vw, 46vw"
+            class="w-full transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+            loading="lazy"
+          />
+          <span class="pointer-events-none absolute inset-0 bg-forest-950/0 transition-colors duration-500 group-hover:bg-forest-950/15" />
+          <span class="pointer-events-none absolute right-3 bottom-3 grid h-8 w-8 translate-y-2 place-items-center rounded-full bg-white/90 text-forest-900 opacity-0 transition-all duration-[400ms] group-hover:translate-y-0 group-hover:opacity-100">
+            <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.7">
+              <circle cx="9" cy="9" r="5.5" />
+              <path stroke-linecap="round" d="m13.2 13.2 3.3 3.3M9 6.8v4.4M6.8 9h4.4" />
+            </svg>
+          </span>
+        </button>
+      </figure>
+    ))
+  }
+</div>

@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Sprig from './Sprig.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+
+const { eyebrow, title, lede, image, imageAlt = '' } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-forest-950">
+  {
+    image && (
+      <>
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[800, 1400, 1900]}
+          sizes="100vw"
+          class="absolute inset-0 h-full w-full object-cover opacity-40"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-forest-950/85 via-forest-950/72 to-forest-950/95" />
+      </>
+    )
+  }
+
+  <div class="relative mx-auto max-w-7xl px-5 pt-32 pb-16 sm:px-8 sm:pt-40 sm:pb-20 lg:pt-44 lg:pb-24">
+    <div class="max-w-3xl">
+      {eyebrow && <p class="eyebrow !text-apricot-300">{eyebrow}</p>}
+      <h1 class="mt-4 text-[2.35rem] leading-[1.08] font-semibold text-white sm:text-[3.1rem] lg:text-[3.5rem]">
+        {title}
+      </h1>
+      {lede && <p class="mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-forest-100/80 sm:text-[1.15rem]">{lede}</p>}
+      <Sprig class="mt-9 h-5 w-auto text-apricot-400/70" />
+    </div>
+    <slot />
+  </div>
+</section>

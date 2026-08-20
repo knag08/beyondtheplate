@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+interface Props {
+  icon: IconName;
+  title: string;
+  text: string;
+}
+
+const { icon, title, text } = Astro.props;
+---
+
+<article class="reveal flex h-full flex-col gap-4 border-t border-forest-900/12 pt-6">
+  <span class="text-apricot-600">
+    <Icon name={icon} class="h-7 w-7" />
+  </span>
+  <h3 class="text-[1.18rem] leading-snug font-semibold">{title}</h3>
+  <p class="text-[0.95rem] leading-relaxed text-forest-600">{text}</p>
+</article>

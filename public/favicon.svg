@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Beyond the Plate">
+  <rect width="48" height="48" rx="10" fill="#0f2019"/>
+  <g fill="none" stroke="#ecb374" stroke-width="1.7">
+    <circle cx="24" cy="24" r="17.5" opacity="0.4"/>
+    <circle cx="24" cy="24" r="12.6"/>
+    <path d="M24 32V21" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M24 21.6c0-3.9 2.9-6.9 6.9-7.2.3 3.9-2.7 6.9-6.9 7.2Z" stroke-linejoin="round"/>
+    <path d="M24 24.6c0-3-2.2-5.3-5.3-5.6.2 3 2.1 5.3 5.3 5.6Z" stroke-linejoin="round"/>
+  </g>
+</svg>

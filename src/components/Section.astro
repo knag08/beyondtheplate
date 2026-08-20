@@ -1,0 +1,31 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  /** Background treatment. */
+  tone?: 'cream' | 'deep' | 'mist' | 'forest';
+  /** Vertical rhythm. */
+  space?: 'sm' | 'md' | 'lg';
+}
+
+const { id, class: className = '', tone = 'cream', space = 'lg' } = Astro.props;
+
+const tones = {
+  cream: 'bg-cream',
+  deep: 'bg-cream-deep',
+  mist: 'bg-sage-mist',
+  forest: 'bg-forest-950 text-forest-100',
+};
+
+const spaces = {
+  sm: 'py-14 sm:py-16',
+  md: 'py-16 sm:py-20 lg:py-24',
+  lg: 'py-20 sm:py-24 lg:py-32',
+};
+---
+
+<section id={id} class:list={[tones[tone], spaces[space], className]}>
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <slot />
+  </div>
+</section>
