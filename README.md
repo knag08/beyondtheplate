@@ -36,18 +36,36 @@ Deployment is automatic. Every push to `main` runs
 to GitHub Pages. You can also redeploy by hand from the **Actions** tab → *Deploy to GitHub Pages* →
 **Run workflow**.
 
-One-time setup on GitHub (already done for this repository):
+Setup on GitHub:
 
-1. **Settings → Pages → Build and deployment → Source** must be **GitHub Actions**.
+1. **Settings → Pages → Build and deployment → Source** must be **GitHub Actions**. ⚠️ At the time of
+   writing it is still **Deploy from a branch**, which means GitHub *also* runs its own built-in
+   *pages build and deployment* workflow on every push. That one tries to build the repository with
+   Jekyll, fails (this is an Astro project, not a Jekyll one), and leaves a red cross in the Actions
+   tab. The site itself is fine — the *Deploy to GitHub Pages* workflow above is what actually
+   publishes — but switching the source to **GitHub Actions** stops the pointless second build, clears
+   the red crosses, and removes any chance of a stray Jekyll build overwriting the real site.
 2. **Custom domain** is `beyondtheplate.us`, with **Enforce HTTPS** ticked.
 3. At the registrar, the domain points at GitHub Pages:
    - four `A` records for `beyondtheplate.us` → `185.199.108.153`, `185.199.109.153`,
      `185.199.110.153`, `185.199.111.153`
    - one `CNAME` record for `www` → `knag08.github.io`
 
-[`public/CNAME`](public/CNAME) holds the custom domain and must stay in the repository — a deploy would
-otherwise wipe the setting. If the site ever moves to another domain, edit that file *and* the `site:`
-value in [`astro.config.mjs`](astro.config.mjs) (it is used for canonical URLs and the sitemap).
+There are two `CNAME` files, and both should stay:
+
+- [`public/CNAME`](public/CNAME) is the one that matters. Astro copies it into `dist/`, so it travels
+  with every deploy; without it a deploy would wipe the custom-domain setting.
+- The `CNAME` at the repository root was written by the GitHub UI when the custom domain was first
+  set. It is not used by the build, but deleting it can clear the domain setting, so leave it alone.
+
+If the site ever moves to another domain, edit `public/CNAME` *and* the `site:` value in
+[`astro.config.mjs`](astro.config.mjs) (it is used for canonical URLs and the sitemap).
+
+### Pushing
+
+The remote deliberately carries the username — `https://knag08@github.com/knag08/beyondtheplate.git`.
+Without it, the macOS keychain hands over a different account's credential and the push fails with
+`403 … denied to vgyan`. The `ndsai` repository is set up the same way.
 
 ---
 

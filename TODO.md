@@ -45,7 +45,17 @@ npm run build
 The script maps each original WhatsApp filename to its site filename, so captions,
 categories and the hero images all stay exactly where they are.
 
-## 4. Worth considering later
+## 4. Switch the Pages source to GitHub Actions
+
+**Where:** repository **Settings → Pages → Build and deployment → Source**
+
+It is currently **Deploy from a branch**, so GitHub runs its own *pages build and
+deployment* workflow alongside ours on every push, tries to build the repository with
+Jekyll, and fails — one red cross in the Actions tab per push. The live site is unaffected,
+but setting the source to **GitHub Actions** stops the wasted build and removes the risk of
+a stray Jekyll run overwriting the real deployment.
+
+## 5. Worth considering later
 
 - **A testimonials section.** Nothing on the site currently quotes a parent, because no
   real quotes were available and inventing them was not an option. There is a natural home
