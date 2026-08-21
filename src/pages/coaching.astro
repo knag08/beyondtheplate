@@ -13,7 +13,6 @@ import Promises from '../components/Promises.astro';
 import CallToAction from '../components/CallToAction.astro';
 
 import { helpAreas, resonates, workTogether } from '../data/content';
-import { booking, bookingHref, bookingIsExternal } from '../data/site';
 import { photoById } from '../data/photos';
 
 const hero = photoById('snack-tricolour-tea-sandwiches');
@@ -46,7 +45,7 @@ const planImage = photoById('lunch-mash-roasted-vegetables-bowl');
         <SectionHeading
           eyebrow="What we can work on together"
           title="Your child’s programme is personalised to their needs and your family’s goals."
-          lede="These are the things we may explore. Which of them we actually spend time on depends entirely on your child."
+          lede={resonates}
         />
         <div class="reveal mt-9">
           <Image
@@ -57,16 +56,6 @@ const planImage = photoById('lunch-mash-roasted-vegetables-bowl');
             class="bowl aspect-[4/3] w-full object-cover"
             loading="lazy"
           />
-        </div>
-
-        <div class="reveal mt-8 rounded-3xl border border-apricot-300/70 bg-apricot-50 p-6 sm:p-7">
-          <p class="font-display text-[1.15rem] leading-snug font-semibold text-forest-900">{resonates.title}</p>
-          <p class="mt-2 text-[0.95rem] leading-relaxed text-forest-700">{resonates.prompt}</p>
-          <div class="mt-5">
-            <Button href={bookingHref} variant="primary" external={bookingIsExternal}>
-              {booking.discovery.cta}
-            </Button>
-          </div>
         </div>
       </div>
 

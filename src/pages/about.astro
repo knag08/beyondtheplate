@@ -12,7 +12,7 @@ import Promises from '../components/Promises.astro';
 import CallToAction from '../components/CallToAction.astro';
 
 import { booking, bookingHref, bookingIsExternal, coach } from '../data/site';
-import { philosophy } from '../data/content';
+import { closing, philosophy } from '../data/content';
 import { photoById } from '../data/photos';
 
 const hero = photoById('veg-vegetable-stew-pan');
@@ -46,6 +46,7 @@ const kitchenTwo = photoById('veg-okra-fry');
           develop at home, the way families approach food, lifestyle, stress, sleep, movement and daily routines all
           influence a child’s overall well-being.
         </p>
+        {philosophy.map((paragraph) => <p>{paragraph}</p>)}
         <p>
           I realised that helping families shouldn’t begin only when a health concern arises. It should begin earlier —
           with knowledge, guidance and healthy habits that can become part of everyday life.
@@ -59,9 +60,7 @@ const kitchenTwo = photoById('veg-okra-fry');
           medicine, and board certification in health and life coaching, I bring a whole-child perspective to family
           wellness.
         </p>
-        <h2>My core philosophy</h2>
-        {philosophy.map((paragraph) => <p>{paragraph}</p>)}
-        <h2>What I am not here to do</h2>
+        <h2>What I am here to do</h2>
         <p>
           My goal is not to prescribe extreme diets or rigid rules. Instead, I help families understand how everyday
           choices — especially the foods children eat — can support their growth, energy, vitality, emotional well-being
@@ -70,6 +69,15 @@ const kitchenTwo = photoById('veg-okra-fry');
         <p>
           Together, we focus on practical, sustainable dietary practices and nutrient-dense foods that fit your child’s
           individual needs and your family’s real life.
+        </p>
+
+        <p class="!mt-10 font-display text-[1.3rem] leading-snug font-semibold !text-forest-900">
+          {closing.question}
+        </p>
+        <p class="!mt-2">
+          <a href={bookingHref} target={bookingIsExternal ? '_blank' : undefined} rel={bookingIsExternal ? 'noopener' : undefined}>
+            {closing.action}
+          </a>
         </p>
       </div>
 
@@ -125,7 +133,7 @@ const kitchenTwo = photoById('veg-okra-fry');
 
   <CallToAction
     eyebrow="Ready to begin?"
-    title="Ready to transform your family table?"
+    title="Let’s talk about your child."
     text="A first conversation is mostly listening — to your child’s habits and preferences, your family’s routines, and everything you have already tried."
     primary={{ href: bookingHref, label: booking.discovery.cta, external: bookingIsExternal }}
     secondary={{ href: '/contact/', label: 'Get in touch' }}

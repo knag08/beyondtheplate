@@ -154,8 +154,12 @@ export const philosophy = [
   'Nutrition should never feel like a chore or a battle. Instead it is about empowering parents to create a supportive environment where children can learn and explore new textures at their own pace, and build a joyful lifelong relationship with food.',
 ] as const;
 
-/** An invitation to reply, shown once the approach has been laid out. */
-export const resonates = {
-  title: 'Now that you know my approach, I’d love to hear about yours.',
-  prompt: 'Tell me — which of these elements resonates?',
+/** An invitation to reply, introducing the list of things a programme may cover. */
+export const resonates =
+  'Now that you know my approach — I would love to hear about yours: which of these elements resonates?';
+
+/** The closing lines, at the foot of the About page. */
+export const closing = {
+  question: 'Ready to transform your family table?',
+  action: 'Book your free 20-minute discovery call today.',
 } as const;
