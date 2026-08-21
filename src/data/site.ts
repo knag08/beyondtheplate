@@ -7,9 +7,9 @@
 
 export const site = {
   name: 'Beyond the Plate',
-  tagline: 'Whole-child nutrition & health coaching',
+  tagline: 'Online whole-child nutrition & health coaching',
   description:
-    'Whole-child nutrition and health coaching for school-age children and the families who care for them. Dr. Indu Tana — board-certified health and life coach, with nearly 30 years as a dietitian in a super-specialty hospital.',
+    'Online whole-child nutrition and health coaching for school-age children and the families who care for them, wherever you are. Dr. Indu Tana — board-certified health and life coach, with nearly 30 years as a dietitian in a super-specialty hospital.',
   url: 'https://beyondtheplate.us',
 } as const;
 
@@ -44,6 +44,15 @@ export const contact = {
 export const booking = {
   url: 'https://calendly.com/indumathyd/meet-dr-tana' as string,
   label: 'Book a consultation',
+
+  /**
+   * What the first call actually is. Kept separate from `label`, which has to
+   * stay short enough for the header and the mobile menu.
+   */
+  discovery: {
+    cta: 'Book your free 20-minute discovery call',
+    short: 'Free 20-minute discovery call',
+  },
 
   /**
    * Calendly's floating badge — the pill that follows the visitor down every

@@ -20,3 +20,7 @@ pnpm-debug.log*
 
 # machine-local editor/tool settings
 .claude/settings.local.json
+
+# staging area for new photographs, before they are named and moved
+incoming-photos/*
+!incoming-photos/README.md

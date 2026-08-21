@@ -11,7 +11,8 @@ import Quote from '../components/Quote.astro';
 import Promises from '../components/Promises.astro';
 import CallToAction from '../components/CallToAction.astro';
 
-import { coach } from '../data/site';
+import { booking, bookingHref, bookingIsExternal, coach } from '../data/site';
+import { philosophy } from '../data/content';
 import { photoById } from '../data/photos';
 
 const hero = photoById('veg-vegetable-stew-pan');
@@ -58,6 +59,8 @@ const kitchenTwo = photoById('veg-okra-fry');
           medicine, and board certification in health and life coaching, I bring a whole-child perspective to family
           wellness.
         </p>
+        <h2>My core philosophy</h2>
+        {philosophy.map((paragraph) => <p>{paragraph}</p>)}
         <h2>What I am not here to do</h2>
         <p>
           My goal is not to prescribe extreme diets or rigid rules. Instead, I help families understand how everyday
@@ -121,8 +124,10 @@ const kitchenTwo = photoById('veg-okra-fry');
   </Section>
 
   <CallToAction
-    title="Let’s talk about your child."
+    eyebrow="Ready to begin?"
+    title="Ready to transform your family table?"
     text="A first conversation is mostly listening — to your child’s habits and preferences, your family’s routines, and everything you have already tried."
+    primary={{ href: bookingHref, label: booking.discovery.cta, external: bookingIsExternal }}
     secondary={{ href: '/contact/', label: 'Get in touch' }}
   />
 </BaseLayout>

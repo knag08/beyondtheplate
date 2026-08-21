@@ -119,3 +119,43 @@ export const workTogether = [
 
 /** The three promises repeated across the site. */
 export const promises = ['No extreme diets.', 'No rigid rules.', 'No guilt.'] as const;
+
+/** The opening promise, used in the home page hero. */
+export const opening = {
+  lede: 'Discover expert online nutritional coaching designed to foster a positive relationship with food, positive routines and total well-being.',
+  sub: 'Partner with a dedicated health coach to build a healthier future for your family — from the comfort of your home.',
+} as const;
+
+/** Vision and mission, shown together directly below the hero. */
+export const visionMission = [
+  {
+    label: 'My vision',
+    statement:
+      'Empowering parents; empowering children — nourishing their childhood today, building their health for a lifetime.',
+    body: [
+      'Let’s create a home where your children truly thrive — no more mealtime battles, no food rules.',
+      'Expert, stress-free online food advice, tailored to your busy family.',
+    ],
+  },
+  {
+    label: 'My mission',
+    statement:
+      'To help children develop healthy eating habits, positive routines, essential life skills and a healthy relationship with food — all while empowering families to create an environment where children can thrive.',
+    body: [
+      'Welcome your family health coach right into your kitchen. Get personalised online guidance to turn picky eating into peaceful family meals.',
+      'You aren’t just serving dinner — you are writing your child’s health picture. Let’s make it a masterpiece.',
+    ],
+  },
+] as const;
+
+/** The core philosophy, on the About page. */
+export const philosophy = [
+  'My core philosophy is rooted in stress-free family meals and intuitive eating. I believe that when you remove the pressure, anxiety and rigid rules from the dinner table, children naturally become adventurous eaters.',
+  'Nutrition should never feel like a chore or a battle. Instead it is about empowering parents to create a supportive environment where children can learn and explore new textures at their own pace, and build a joyful lifelong relationship with food.',
+] as const;
+
+/** An invitation to reply, shown once the approach has been laid out. */
+export const resonates = {
+  title: 'Now that you know my approach, I’d love to hear about yours.',
+  prompt: 'Tell me — which of these elements resonates?',
+} as const;

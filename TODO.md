@@ -48,7 +48,44 @@ Calendly receives, what is done with an enquiry, and how long it is kept. It wan
 by someone who can speak for the practice rather than being drafted here, and it would sit
 naturally as a `/privacy/` page linked from the footer.
 
-## 5. Worth considering later
+## 5. The new batch of photographs
+
+Around twenty new photographs were sent through chat — including two spectacular
+thalis, a cast-iron pan of white-bean curry, vegetable-cheese toasts, dhokla, pooris,
+and sharper retakes of several dishes already on the site. None of them could be saved:
+photographs pasted into a chat are not files on disk, and macOS blocks this machine's
+tooling from reading `~/Downloads` and `~/Desktop`.
+
+To bring them in, copy them into [`incoming-photos/`](incoming-photos/) — any filenames
+will do. That folder is inside the project, which is the one place readable from here, and
+it is gitignored so nothing lands in the repository by accident.
+
+Once they are there they can be reviewed one by one, given descriptive filenames and real
+alt text, and moved into `src/assets/photos/`.
+
+### Existing photographs worth retiring at the same time
+
+Eight of the current sixty-two are weaker than the rest. Four are simply off-message or
+poorly lit; two are superseded by sharper retakes in the new batch; two read as takeaway
+rather than as food cooked at home.
+
+| Photograph | Why |
+| --- | --- |
+| `snack-vegetable-burgers` | White buns and melted cheese — the least "nutrient-dense" image on the site |
+| `snack-mango-cream-cups` | A cream dessert, at odds with the whole-food story everything else tells |
+| `lunch-banana-leaf-spread` | Too dim to read what is on the leaf |
+| `lunch-rice-podi-chutney-pickle` | Dark and murky |
+| `veg-tofu-tomato-spring-onion` | Flat and plain next to its neighbours |
+| `lunch-claypot-noodle-soup` | Reads as a restaurant takeaway |
+| `snack-idli-fry-masala` | Superseded by the sharper retake in the new batch |
+| `lunch-idiyappam-coconut-curry` | Superseded by the better-lit retake in the new batch |
+
+Retiring those eight and adding the new twenty would take the gallery from 62 to about 74,
+and raise the average considerably. Removing a photograph means deleting the file from
+`src/assets/photos/` and its line from the `captions` map in `src/data/photos.ts` — the
+gallery counts and filters adjust themselves.
+
+## 6. Worth considering later
 
 - **A testimonials section.** Nothing on the site currently quotes a parent, because no
   real quotes were available and inventing them was not an option. There is a natural home
