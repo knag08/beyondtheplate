@@ -120,10 +120,21 @@ export const workTogether = [
 /** The three promises repeated across the site. */
 export const promises = ['No extreme diets.', 'No rigid rules.', 'No guilt.'] as const;
 
-/** The opening promise, used in the home page hero. */
+/**
+ * The opening promise, used in the home page hero.
+ *
+ * `headline` is split in three so "health coach" can be picked out in the
+ * accent colour — the words were sent in capitals for emphasis, and colour
+ * carries that better than shouting does at headline size.
+ */
 export const opening = {
-  lede: 'Discover expert online nutritional coaching designed to foster a positive relationship with food, positive routines and total well-being.',
-  sub: 'Partner with a dedicated health coach to build a healthier future for your family — from the comfort of your home.',
+  headline: {
+    before: 'Partner with a dedicated ',
+    emphasis: 'health coach',
+    after: ' to build a healthier future for your family from the comfort of your home!',
+  },
+  support:
+    'Discover expert online nutritional coaching designed to foster a positive relationship with food, positive routines and total well-being of your child.',
 } as const;
 
 /** Vision and mission, shown together directly below the hero. */
@@ -142,8 +153,8 @@ export const visionMission = [
     statement:
       'To help children develop healthy eating habits, positive routines, essential life skills and a healthy relationship with food — all while empowering families to create an environment where children can thrive.',
     body: [
-      'Welcome your family health coach right into your kitchen. Get personalised online guidance to turn picky eating into peaceful family meals.',
-      'You aren’t just serving dinner — you are writing your child’s health picture. Let’s make it a masterpiece.',
+      'Welcome your family health coach right into your kitchen. Get personalised online guidance to transform picky eating into peaceful family meals.',
+      'You aren’t just serving dinner — you are writing your child’s health picture. Let’s make it a masterpiece!',
     ],
   },
 ] as const;
